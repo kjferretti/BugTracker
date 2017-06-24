@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Test";
+}
+
+<h2>Test</h2>
+
+<h3>Current Roles</h3>
+@*@if (ViewBag.Roles.Any())
+{*@
+    @foreach (var role in ViewBag.Roles)
+    {
+        <h6>@role</h6>
+    }
+@*}*@
+
+<h3>Current Projects</h3>
+@*@if (ViewBag.Projects.Any())
+{*@
+    @foreach (var project in ViewBag.Projects)
+    {
+        <h6>@project.Name</h6>
+    }
+@*}*@

@@ -1,0 +1,107 @@
+﻿@model BugTracker.Models.CodeFirst.Ticket
+
+<div class="content-wrapper">
+    <h3>Resolve</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="panel panel-purple">
+                    <div class="panel-heading">Are you sure you want to set this ticket's status to resolved?</div>
+                    <div class="panel-body">
+                        <dl class="">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Description):
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Description)
+                            </dd>
+                            <br />
+                            <dt>
+                                Project:
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Project.Name)
+                            </dd>
+                            <br />
+                            <dt>
+                                Assigned To:
+                            </dt>
+
+                            @if (Model.AssignedToId == null)
+                            {
+                                <dd>Currently Unassigned</dd>
+                            }
+                            else
+                            {
+                                <dd>@Html.DisplayFor(model => model.AssignedTo.FirstName) @Html.DisplayFor(model => model.AssignedTo.LastName)</dd>
+                            }
+                            <br />
+                            <dt>
+                                Submitter:
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Submitter.FirstName) @Html.DisplayFor(model => model.Submitter.LastName)
+                            </dd>
+                            <br />
+                            <dt>
+                                Priority:
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.TicketPriority.Name)
+                            </dd>
+                            <br />
+                            <dt>
+                                Status:
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.TicketStatus.Name)
+                            </dd>
+                            <br />
+                            <dt>
+                                Type:
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.TicketType.Name)
+                            </dd>
+                            <br />
+                            <dt>
+                                Created Date:
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Created)
+                            </dd>
+                            <br />
+                            <dt>
+                                Updated Date:
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Updated)
+                            </dd>
+
+                        </dl>
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <input type="submit" value="Set as Resolved" class="btn btn-danger" />
+                        }
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-success btn-labeled btn-xs col-lg-offset-9" onclick="location.href='@Url.Action("Index")';">
+                            <span class="btn-label"><i class="icon-list"></i></span>
+                            Back to List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

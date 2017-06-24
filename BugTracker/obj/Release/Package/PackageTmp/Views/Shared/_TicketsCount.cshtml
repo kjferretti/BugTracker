@@ -1,0 +1,37 @@
+﻿@if (User.IsInRole("Administrator"))
+{
+    <li class=" ">
+        <a href="#admintickets" title="Tickets" data-toggle="collapse">
+            <div class="pull-right label label-success">
+                @ViewBag.NonResolvedTickets
+            </div>
+            <em class="fa fa-ticket"></em>
+            <span data-localize="sidebar.nav.ADMINTICKETS">Tickets</span>
+        </a>
+        <ul id="admintickets" class="nav sidebar-subnav collapse">
+            <li class="sidebar-subnav-header">Tickets</li>
+            <li class=" ">
+                <a href="@Url.Action("Index", "Tickets")" title="Main">
+                    <div class="pull-right label label-success">
+                        @ViewBag.NonResolvedTickets
+                    </div>
+                    <span>Main</span>
+                </a>
+            </li>
+            <li class=" ">
+                <a href="@Url.Action("Resolved", "Tickets")" title="Resolved">
+                    <div class="pull-right label label-danger">
+                        @ViewBag.ResolvedTickets
+                    </div>
+                    <span>Resolved</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+}
+else
+{
+    <div class="pull-right label label-success">
+        @ViewBag.Tickets
+    </div>
+}

@@ -1,0 +1,87 @@
+﻿@{ Layout = null; }
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Bootstrap Admin App + jQuery">
+    <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
+    <title>Angle - Bootstrap Admin Template</title>
+    <!-- =============== VENDOR STYLES ===============-->
+    <!-- FONT AWESOME-->
+    <link rel="stylesheet" href="~/vendor/fontawesome/css/font-awesome.min.css">
+    <!-- SIMPLE LINE ICONS-->
+    <link rel="stylesheet" href="~/vendor/simple-line-icons/css/simple-line-icons.css">
+    <!-- ANIMATE.CSS-->
+    <link rel="stylesheet" href="~/vendor/animate.css/animate.min.css">
+    <!-- WHIRL (spinners)-->
+    <link rel="stylesheet" href="~/vendor/whirl/dist/whirl.css">
+    <!-- =============== PAGE VENDOR STYLES ===============-->
+    <!-- SWEET ALERT-->
+    <link rel="stylesheet" href="~/vendor/sweetalert/dist/sweetalert.css">
+    <!-- =============== BOOTSTRAP STYLES ===============-->
+    <link rel="stylesheet" href="~/app/css/bootstrap.css" id="bscss">
+    <!-- =============== APP STYLES ===============-->
+    <link rel="stylesheet" href="~/app/css/app.css" id="maincss">
+    <link href="~/app/css/custom.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="block-center mt-xl wd-xl">
+            <!-- START panel-->
+            <div class="panel panel-dark panel-flat">
+                <div class="panel-heading text-center">
+                    <a href="@Url.Action("Landing","Home")" class="logo-register">
+                        ReSolve
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <p class="text-center pv">To use this site you need the role of submitter or higher. You are currently logged in as a guest. Click the button to apply for the role of submitter.</p>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-3 col-lg-6 col-sm-offset-3">
+                                <p class="text-center">
+                                    <a id="swal-demo3" onclick="location.href='@Url.Action("GuestAssignment","Guest")';" class="btn btn-primary">Apply</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============== VENDOR SCRIPTS ===============-->
+    <!-- MODERNIZR-->
+    <script src="~/vendor/modernizr/modernizr.custom.js"></script>
+    <!-- MATCHMEDIA POLYFILL-->
+    <script src="~/vendor/matchMedia/matchMedia.js"></script>
+    <!-- JQUERY-->
+    <script src="~/vendor/jquery/dist/jquery.js"></script>
+    <!-- BOOTSTRAP-->
+    <script src="~/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- STORAGE API-->
+    <script src="~/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
+    <!-- JQUERY EASING-->
+    <script src="~/vendor/jquery.easing/js/jquery.easing.js"></script>
+    <!-- ANIMO-->
+    <script src="~/vendor/animo.js/animo.js"></script>
+    <!-- SLIMSCROLL-->
+    <script src="~/vendor/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- SCREENFULL-->
+    <script src="~/vendor/screenfull/dist/screenfull.js"></script>
+    <!-- LOCALIZE-->
+    <script src="~/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
+    <!-- RTL demo-->
+    <script src="~/app/js/demo/demo-rtl.js"></script>
+    <!-- =============== PAGE VENDOR SCRIPTS ===============-->
+    <!-- SWEET ALERT-->
+    <script src="~/vendor/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- =============== APP SCRIPTS ===============-->
+    <script src="~/app/js/app.js"></script>
+
+</body>
+</html>

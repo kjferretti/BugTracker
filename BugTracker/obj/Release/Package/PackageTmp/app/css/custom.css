@@ -1,0 +1,105 @@
+﻿/*@import url('https://fonts.googleapis.com/css?family=Montserrat+Subrayada');*/
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+
+.btn-group-comments{
+    bottom: 7px;
+    right: 10px;
+    position: absolute;
+}
+
+.delete-attachment{
+    bottom: 7px;
+    right: 10px;
+    position: absolute;
+}
+
+.logo-font{
+    font-family: 'Lobster', sans-serif;
+    color: white;
+    font-size: 1.5em;
+    text-shadow: -2px 2px 1px grey;
+    margin-top: 4px;
+}
+
+.landing-logo{
+    font-family: 'Lobster', sans-serif;
+    color: black;
+    font-size: 1.5em;
+    text-shadow: -2px 2px 1px purple;
+    margin-top: -23px;
+}
+
+.landing-heading{
+    font-family: 'Lobster', sans-serif;
+    color: white;
+    /*font-size: 1.5em;*/
+    text-shadow: -2px 2px 1px purple;
+    /*margin-top: -23px;*/
+}
+
+.index-btns button{
+    width: 93px;
+}
+
+.wd-xxs{
+    width: 70px;
+}
+
+.btn-block-landing{
+    width: 200px;
+    margin: 5px;
+    /*display: inline-block;*/
+    /*text-align: center;*/
+}
+
+header {
+    overflow: hidden;
+    /* Background image fallback */
+    text-align: center;
+    /*background: url('../img/bg-fallback-header.jpg') no-repeat center;*/
+    /*background: url('../../img/DeathtoStock_Hot&Cold-02.jpg');*/
+    background: url('../../img/DeathtoStock_Hot&Cold-02_Compressed.jpg');
+    background-position-y: -20px;
+    -webkit-background-size: cover;
+    background-size: cover;
+    /* INTRO */
+}
+
+.text-shadow-white{
+    text-shadow: 2px 2px white;
+}
+
+.logo-register{
+    font-family: 'Lobster', sans-serif;
+    color: white;
+    font-size: 1.5em;
+    text-shadow: -2px 2px 1px grey;
+    margin-top: 4px;
+}
+
+.aside-collapsed .user-block .btn-block button .manage-button-responsive, .aside-collapsed-text .user-block button .manage-button-responsive {
+    display: none;
+}
+
+.aside .user-block .btn-block a {
+    width: 128px;
+    margin-right:3px
+}
+
+.aside-collapsed .user-block .btn-block a, .aside-collapsed-text .user-block a {
+    width: 55px;
+}
+
+/*.loading {
+    border: 16px solid #f3f3f3; 
+    border-top: 16px solid #3498db; 
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}*/

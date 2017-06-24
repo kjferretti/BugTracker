@@ -1,0 +1,36 @@
+﻿@model BugTracker.Models.ChangeNameViewModel
+@{
+    ViewBag.Title = "ChangeName";
+}
+
+<h2>ChangeName</h2>
+
+@using (Html.BeginForm("ChangeName", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Change Name Form</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.NewFirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.NewFirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.NewFirstName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.NewLastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.NewLastName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.NewLastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Change name" class="btn btn-default" />
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

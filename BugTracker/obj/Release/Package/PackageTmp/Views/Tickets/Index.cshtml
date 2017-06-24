@@ -1,0 +1,387 @@
+﻿@*@model IEnumerable<BugTracker.Models.CodeFirst.Ticket>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table" id="ticketstable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AssignedTo.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Project.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Submitter.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketPriority.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketStatus.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketType.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Updated)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssignedTo.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Submitter.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Updated)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>*@
+
+@model IEnumerable<BugTracker.Models.CodeFirst.Ticket>
+@using Microsoft.AspNet.Identity
+
+<!-- DATATABLES-->
+<link rel="stylesheet" href="~/vendor/datatables-colvis/css/dataTables.colVis.css">
+<link rel="stylesheet" href="~/vendor/datatables/media/css/dataTables.bootstrap.css">
+<link rel="stylesheet" href="~/vendor/dataTables.fontAwesome/index.css">
+
+<div class="content-wrapper">
+    <h3>Tickets</h3>
+    <div class="row">
+        @*<div class="col-md-4">
+            <!-- Aside panel-->
+            <div class="panel b">
+                <div class="panel-body bb">
+                    <p>Overvall progress</p>
+                    <div class="table-grid table-grid-align-middle mv">
+                        <div class="col">
+                            <div class="progress progress-xs m0">
+                                <div style="width:48%" class="progress-bar progress-bar-info">48%</div>
+                            </div>
+                        </div>
+                        <div class="hidden-xs col wd-xxs text-right">
+                            <div class="text-bold text-muted">48%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p>Metrics</p>
+                    <div class="row text-center">
+                        <div class="col-xs-3 col-md-6 col-lg-3">
+                            <div class="inline mv">
+                                <div data-sparkline="" values="20,80" data-type="pie" data-height="50" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#23b7e5&quot;]" class="sparkline"></div>
+                            </div>
+                            <p class="mt-lg">Issues</p>
+                        </div>
+                        <div class="col-xs-3 col-md-6 col-lg-3">
+                            <div class="inline mv">
+                                <div data-sparkline="" values="60,40" data-type="pie" data-height="50" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#27c24c&quot;]" class="sparkline"></div>
+                            </div>
+                            <p class="mt-lg">Bugs</p>
+                        </div>
+                        <div class="col-xs-3 col-md-6 col-lg-3">
+                            <div class="inline mv">
+                                <div data-sparkline="" values="20,80" data-type="pie" data-height="50" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#ff902b&quot;]" class="sparkline"></div>
+                            </div>
+                            <p class="mt-lg">Hours</p>
+                        </div>
+                        <div class="col-xs-3 col-md-6 col-lg-3">
+                            <div class="inline mv">
+                                <div data-sparkline="" values="30,70" data-type="pie" data-height="50" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#f05050&quot;]" class="sparkline"></div>
+                            </div>
+                            <p class="mt-lg">Assigned</p>
+                        </div>
+                    </div>
+                </div>
+                <table class="table bb">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong>Assigned Hours</strong>
+                            </td>
+                            <td>68 hs</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Time Consumed</strong>
+                            </td>
+                            <td>32 hs</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Issues</strong>
+                            </td>
+                            <td>19</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Bugs</strong>
+                            </td>
+                            <td>16</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Health</strong>
+                            </td>
+                            <td>
+                                <em class="fa fa-smile-o fa-lg text-warning"></em>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Commits</strong>
+                            </td>
+                            <td>140</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Recently closed</strong>
+                            </td>
+                            <td>
+                                <div data-height="120" data-scrollable="" class="list-group">
+                                    <table class="table table-bordered bg-transparent">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a href="" class="text-muted">BI:54678</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="" class="text-muted">BI:55778</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="" class="text-muted">BI:56878</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="" class="text-muted">BI:57978</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="" class="text-muted">BI:1107</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Last closed on</strong>
+                            </td>
+                            <td>12/01/2016</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- end Aside panel-->
+        </div>*@
+        <div class="col-md-12">
+            <div class="mb-lg clearfix">
+                <div class="pull-left">
+                    @if (User.IsInRole("Submitter")) { 
+                    <button type="button" class="btn btn-sm btn-info" onclick="location.href='@Url.Action("Create")';">New ticket</button>
+                    }
+                    @*<button type="button" class="btn btn-sm btn-default">
+                        <em class="fa fa-user-plus"></em>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default">
+                        <em class="fa fa-pencil"></em>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default">
+                        <em class="fa fa-mail-forward"></em>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default">
+                        <em class="fa fa-print"></em>
+                    </button>*@
+                </div>
+                <div class="pull-right">
+                    <p class="mb0 mt-sm">@ViewBag.BugsCount bugs / @ViewBag.IssuesCount issues</p>
+                </div>
+            </div>
+            <div class="panel b panel-purple">
+                <div class="panel-heading">Your Tickets</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="datatable1" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    @*<th>#ID</th>*@
+                                    <th>ID#</th>
+                                    <th>Description</th>
+                                    <th>Project</th>
+                                    @*<th>Created Date</th>*@
+                                    @*<th>Updated Date</th>*@
+                                    <th>Status</th>
+                                    <th>Priority</th>
+                                    <th>Submitter</th>
+                                    <th>Assigned</th>
+                                    
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var ticket in Model)
+                                {
+                                    if(ticket.TicketStatus.Name != "Resolved")
+                                    {
+                                <tr>
+                                    <td>
+                                        <div class="badge bg-gray-lighter">@ticket.TicketType.Name</div>
+                                    </td>
+                                    @*<td>BI:54678</td>*@
+                                    <td>@ticket.Title</td>
+                                    <td>
+                                        <small>@ticket.Description</small>
+                                    </td>
+                                    <td>@ticket.Project.Name</td>
+                                    @*<td>@Html.DisplayFor(t=>ticket.Created)</td>*@
+                                    <td>
+                                            @if (ticket.TicketStatus.Name == "Unassigned")
+                                            {
+                                                <div class="inline wd-xxs label label-primary">Unassigned</div>
+                                            }
+                                            @if (ticket.TicketStatus.Name == "Assigned")
+                                            {
+                                                <div class="inline wd-xxs label label-green">Assigned</div>
+                                            }
+                                            @if (ticket.TicketStatus.Name == "Resolved")
+                                            {
+                                                <div class="inline wd-xxs label label-danger">Resolved</div>
+                                            }
+                                    </td>
+                                    <td>
+                                        @if (ticket.TicketPriority.Name == "High")
+                                        {
+                                            <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-danger"></div><span> High</span>
+                                        }
+                                        @if (ticket.TicketPriority.Name == "Medium")
+                                        {
+                                            <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-warning"></div><span> Medium</span>
+                                        }
+                                        @if (ticket.TicketPriority.Name == "Low")
+                                        {
+                                            <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-success"></div><span> Low</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @*<a href="@Url.Action("Details","Users",new { userId = ticket.SubmitterId })">*@@ticket.Submitter.FirstName @ticket.Submitter.LastName@*</a>*@
+                                    </td>
+                                    <td>
+                                        @if (ticket.AssignedToId == null)
+                                        {
+                                            <span>N/A</span>
+                                        }
+                                        else
+                                        {
+                                            @*<a href="@Url.Action("Details","Users",new { userId = ticket.AssignedToId })">*@@ticket.AssignedTo.FirstName<span> </span>@ticket.AssignedTo.LastName@*</a>*@
+                                        }
+
+                                    </td>
+                                  
+                                    <td>
+                                        <div class="btn-group index-btns">
+                                            @if (User.IsInRole("Administrator") || (User.IsInRole("Project Manager") && ticket.Project.InChargeOfId == User.Identity.GetUserId()))
+                                            {
+                                            <button class="btn btn-xs btn-labeled btn-green" onclick="location.href='@Url.Action("Assign", new { ticketId = ticket.Id })';">
+                                                <span class="btn-label pull-left"><i class="fa fa-user-plus"></i></span>
+                                                Assign
+                                            </button>
+                                            }
+                                            <button class="btn btn-xs btn-labeled btn-warning" onclick="location.href='@Url.Action("Edit",new { id = ticket.Id })';">
+                                                <span class="btn-label pull-left"><i class="fa fa-edit"></i></span>
+                                                Edit
+                                            </button>
+                                            <button class="btn btn-xs btn-labeled btn-success" onclick="location.href='@Url.Action("Details",new { id = ticket.Id })';">
+                                                <span class="btn-label pull-left"><i class="fa fa-search"></i></span>
+                                                Details
+                                            </button>
+                                            @if (User.IsInRole("Administrator"))
+                                            {
+                                            <button class="btn btn-xs btn-labeled btn-danger" onclick="location.href='@Url.Action("Delete", new { id = ticket.Id })';">
+                                                <span class="btn-label pull-left"><i class="fa fa-trash"></i></span>
+                                                Resolved
+                                            </button>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <!-- DATATABLES-->
+    <script src="~/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
+    <script src="~/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
+    <script src="~/app/js/demo/demo-datatable.js"></script>
+    }

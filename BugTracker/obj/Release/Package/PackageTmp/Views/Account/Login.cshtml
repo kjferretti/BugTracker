@@ -1,0 +1,141 @@
+﻿@using BugTracker.Models
+@model LoginViewModel
+
+@{ 
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Bootstrap Admin App + jQuery">
+    <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
+    <title>ReSolve</title>
+    <!-- =============== VENDOR STYLES ===============-->
+    <!-- FONT AWESOME-->
+    <link rel="stylesheet" href="~/vendor/fontawesome/css/font-awesome.min.css">
+    <!-- SIMPLE LINE ICONS-->
+    <link rel="stylesheet" href="~/vendor/simple-line-icons/css/simple-line-icons.css">
+    <!-- =============== BOOTSTRAP STYLES ===============-->
+    <link rel="stylesheet" href="~/app/css/bootstrap.css" id="bscss">
+    <!-- =============== APP STYLES ===============-->
+    <link rel="stylesheet" href="~/app/css/app.css" id="maincss">
+    <link href="~/app/css/custom.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="block-center mt-xl wd-xl">
+            <!-- START panel-->
+            <div class="panel panel-dark panel-flat">
+                <div class="panel-heading text-center">
+                    <a href="@Url.Action("Landing","Home")" class="logo-register">
+                        @*<img src="~/app/img/logo.png" alt="Image" class="block-center img-rounded">*@
+                        ReSolve
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <p class="text-center pv">SIGN IN TO CONTINUE</p>
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "mb-lg", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group has-feedback">
+                            <input id="Email" name="Email" type="email" placeholder="Enter email" autocomplete="off" required class="form-control">
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "fa fa-envelope form-control-feedback text-muted" })
+                            @*<span class="fa fa-envelope form-control-feedback text-muted"></span>*@
+                        </div>
+                        <div class="form-group has-feedback">
+                            <input id="Password" name="Password" type="password" placeholder="Password" required class="form-control">
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "fa fa-lock form-control-feedback text-muted" })
+                            @*<span class="fa fa-lock form-control-feedback text-muted"></span>*@
+                        </div>
+                        <div class="clearfix">
+                            <div class="checkbox c-checkbox pull-left mt0">
+                                <label>
+                                    <input id="RememberMe" type="checkbox" value="" name="RememberMe">
+                                    <span class="fa fa-check"></span>Remember Me
+                                </label>
+                            </div>
+                            <div class="pull-right">
+                                <a href="@Url.Action("ForgotPassword","Account")" class="text-muted">Forgot your password?</a>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-block btn-purple mt-lg">Login</button>
+                    }
+                    <p class="pt-lg text-center">Need to Signup?</p><a href="@Url.Action("Register","Account")" class="btn btn-block btn-default">Register Now</a>
+                </div>
+            </div>
+            <!-- END panel-->
+            @*<div class="clearfix"></div>*@
+            <br />
+            <!-- START panel-->
+            <div class="panel panel-flat">
+                @*<div class="panel-heading text-center">
+                    LOG IN AS GUEST ROLE
+                </div>*@
+                <div class="panel-body">
+                    <button onclick="demoSlide()" class="btn btn-block btn-default" id="demoTitle">LOG IN AS GUEST ROLE</button>
+                    <div id="demoDiv" hidden>
+                        @using (Html.BeginForm("GuestAdminLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "mb-lg", role = "form" }))
+                        {
+                            @*@Html.AntiForgeryToken()*@
+                            @*<input value="guest@administrator.com" name="Email" hidden/>
+                <input value="password" name="Password" hidden />*@
+                            <button type="submit" class="btn btn-block btn-purple mt-lg">Administrator</button>
+                        }
+                        @using (Html.BeginForm("GuestPMLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "mb-lg", role = "form" }))
+                        {
+                            @*@Html.AntiForgeryToken()*@
+                            @*<input value="guest@projectmanager.com" name="Email" hidden />
+                <input value="password" name="Password" hidden />*@
+                            <button type="submit" class="btn btn-block btn-purple mt-lg">Project Manager</button>
+                        }
+                        @using (Html.BeginForm("GuestDeveloperLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "mb-lg", role = "form" }))
+                        {
+                            @*@Html.AntiForgeryToken()*@
+                            @*<input value="guest@developer.com" name="Email" hidden />
+                <input value="password" name="Password" hidden />*@
+                            <button type="submit" class="btn btn-block btn-purple mt-lg">Developer</button>
+                        }
+                        @using (Html.BeginForm("GuestSubmitterLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "mb-lg", role = "form" }))
+                        {
+                            @*@Html.AntiForgeryToken()*@
+                            @*<input value="guest@submitter.com" name="Email" hidden />
+                <input value="password" name="Password" hidden />*@
+                            <button type="submit" class="btn btn-block btn-purple mt-lg">Submitter</button>
+                        }
+                        @*<p class="pt-lg text-center">Need to Signup?</p><a href="@Url.Action("Register","Account")" class="btn btn-block btn-default">Register Now</a>*@
+                    </div>
+                </div>
+            </div>
+            <!-- END panel-->
+            <br />
+        </div>
+    </div>
+    <!-- =============== VENDOR SCRIPTS ===============-->
+    <!-- MODERNIZR-->
+    <script src="~/vendor/modernizr/modernizr.custom.js"></script>
+    <!-- JQUERY-->
+    <script src="~/vendor/jquery/dist/jquery.js"></script>
+    <!-- BOOTSTRAP-->
+    <script src="~/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- Demo Login Slide -->
+    <script>
+        function demoSlide() {
+            $('#demoDiv').slideDown();
+            $('#demoTitle').hide();
+        }
+    </script>
+    <!-- STORAGE API-->
+    <script src="~/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
+    <!-- PARSLEY-->
+    <script src="~/vendor/parsleyjs/dist/parsley.min.js"></script>
+    <!-- =============== APP SCRIPTS ===============-->
+    <script src="~/app/js/app.js"></script>
+</body>
+
+</html>

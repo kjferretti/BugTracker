@@ -1,0 +1,235 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Landing Page Template">
+    <meta name="keywords" content="bootstrap, app, theme">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>ReSolve</title>
+    <!-- PREALOADER (loads asap)-->
+    <link rel="stylesheet" href="~/vendor/nprogress/nprogress.css">
+    <script src="~/vendor/nprogress/nprogress.js"></script>
+    <!-- FAVICON-->
+    <!-- FONT-->
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,400italic" rel="stylesheet" type="text/css">
+    <!-- ICONS-->
+    <link rel="stylesheet" href="~/vendor/font-awesome/css/font-awesome.min.css">
+    <script src="~/vendor/jquery.browser/dist/jquery.browser.js"></script>
+    <!-- VENDOR CSS-->
+    <link rel="stylesheet" href="~/vendor/owl.carousel/dist/assets/owl.carousel.css">
+    <link rel="stylesheet" href="~/vendor/owl.carousel/dist/assets/owl.theme.default.css">
+    <link rel="stylesheet" href="~/vendor/Nivo-Lightbox/nivo-lightbox.css">
+    <link rel="stylesheet" href="~/vendor/Nivo-Lightbox/themes/default/default.css">
+    <link rel="stylesheet" href="~/vendor/animate.css/animate.css">
+    <!-- SITE CSS-->
+    <link href="~/app/css/app.css" rel="stylesheet" />
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/theme-c.css">
+    <!--[if lt IE 9]><script src="~/js/html5shiv.js"></script><script src="~/js/respond.min.js"></script><![endif]-->
+    <link href="~/app/css/custom.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- WEBSITE PRELOADER-->
+    <div class="preloader">
+        <div class="loading">Loading ...</div>
+    </div>
+    <!-- START HEADER-->
+    <header id="header" class="header novideo">
+        <div class="full-screen">
+            <!-- START STICKY NAVBAR-->
+            <div class="navbar navbar-default navbar-fixed-top navbar-sticky">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" data-toggle="collapse" data-target="#navbar-main" class="navbar-toggle">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="@Url.Action("Landing")" class="navbar-brand">
+                            <h1 class="landing-logo">ReSolve</h1>
+                        </a>
+                    </div>
+                    <!-- MENU-->
+                    <div id="navbar-main" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right main-navbar">
+                            <li>
+                                <a href="#header">Home</a>
+                            </li>
+                            <li>
+                                <a href="#roles">Roles</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Register","Account")">Register</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Login","Account")">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- END STICKY NAVBAR-->
+            <div class="container">
+                <!-- MAIN LOGO-->
+                <div class="top-logo">
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <!-- INTRO MESSAGE-->
+                        <div class="intro-section">
+                            <h1 class="intro landing-heading">ReSolve</h1>
+                            <h5 class="text-shadow-white" style="color:black">
+                                The one sure thing in software development is that nothing works on the first try. Don't let this slow you down. Maintain your momentum with the ReSolve bugtracking system
+                            </h5>
+                            <!-- DEMO BUTTON-->
+                            <div class="text-center">
+                                <a href="#roles" class="btn btn-lg btn-theme scrollto"><i class="icon-app-download"></i><span>Check it out</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- END HEADER-->
+    
+    <!-- START PLAN TABLE-->
+    <section id="roles" class="plan-table">
+        <div class="container">
+            <!-- SECTION HEADER-->
+            <div data-wow-offset="15" data-wow-duration="1.3s" class="section-header wow fadeIn animated">
+                <h2>Four Unique Roles</h2>
+                <div class="section-description">
+                    Demo them all
+                </div>
+            </div>
+            <!-- END SECTION HEADER-->
+            <div class="row">
+                <!-- PLAN-->
+                <div data-wow-offset="15" data-wow-duration="1.3s" class="col-md-3 col-sm-3 wow fadeIn animated">
+                    <div class="plan">
+                        <h3 class="plan-header">Submitter</h3>
+                        <ul class="plan-features">
+                            <li>
+                                <em class="fa fa-check"></em>Create tickets
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Edit Tickets
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>View Ticket Details
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>View Assigned Projects
+                            </li>
+                        </ul>
+                        <hr>
+                        <div class="text-center">
+                            <a href="@Url.Action("GuestSubmitterLogin", "Account")" class="btn btn-theme">Demo</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- PLAN-->
+                <div data-wow-offset="15" data-wow-duration="1.3s" class="col-md-3 col-sm-3 wow fadeIn animated">
+                    <div class="plan">
+                        <h3 class="plan-header">Developer</h3>
+                        <ul class="plan-features">
+                            <li>
+                                <em class="fa fa-check"></em>Be Assigned Tickets
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Edit Tickets
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>View Ticket Details
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>View Assigned Projects
+                            </li>
+                        </ul>
+                        <hr>
+                        <div class="text-center">
+                            <a href="@Url.Action("GuestDeveloperLogin", "Account")" class="btn btn-theme">Demo</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- PLAN-->
+                <div data-wow-offset="15" data-wow-duration="1.3s" class="col-md-3 col-sm-3 wow fadeIn animated">
+                    <div class="plan">
+                        <h3 class="plan-header">Project Manager</h3>
+                        <ul class="plan-features">
+                            <li>
+                                <em class="fa fa-check"></em>Take Charge of Projects
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>View All Projects
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Assign Tickets
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Assign Projects
+                            </li>
+                        </ul>
+                        <hr>
+                        <div class="text-center">
+                            <a href="@Url.Action("GuestPMLogin", "Account")" class="btn btn-theme">Demo</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- PLAN-->
+                <div data-wow-offset="15" data-wow-duration="1.3s" class="col-md-3 col-sm-3 wow fadeIn animated">
+                    <div class="plan">
+                        <h3 class="plan-header">Administrator</h3>
+                        <ul class="plan-features">
+                            <li>
+                                <em class="fa fa-check"></em>Complete Control
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Resolve Tickets
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Archive Projects
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Manage User Roles
+                            </li>
+                        </ul>
+                        <hr>
+                        <div class="text-center">
+                            <a href="@Url.Action("GuestAdminLogin", "Account")" class="btn btn-theme">Demo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END PLAN TABLE-->
+  
+    <!-- VENDOR SCRIPTS-->
+    <script src="~/vendor/jquery/dist/jquery.js"></script>
+    <script src="~/vendor/jquery.browser/dist/jquery.browser.js"></script>
+    <script src="~/vendor/jquery.easing/js/jquery.easing.js"></script>
+    <script src="~/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/vendor/waitForImages/dist/jquery.waitforimages.min.js"></script>
+    <script src="~/vendor/smoothscroll/smoothscroll.js"></script>
+    <script src="~/vendor/owl.carousel/dist/owl.carousel.js"></script>
+    <script src="~/vendor/Nivo-Lightbox/nivo-lightbox.js"></script>
+    <script src="~/vendor/jquery.scrollTo/jquery.scrollTo.js"></script>
+    <script src="~/vendor/wow/dist/wow.js"></script>
+    <script src="~/vendor/matchMedia/matchMedia.js"></script>
+    <script src="~/vendor/background-video/jquery.backgroundvideo.js"></script>
+    <script src="~/vendor/jQuery-One-Page-Nav/jquery.nav.js"></script>
+    <script src="~/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
+    <!-- SITE SCRIPTS-->
+    <script src="~/js/scripts.js"></script>
+</body>
+
+</html>

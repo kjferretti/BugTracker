@@ -1,0 +1,188 @@
+﻿@model BugTracker.Models.UsersViewModel
+
+<!-- DATATABLES-->
+<link rel="stylesheet" href="~/vendor/datatables-colvis/css/dataTables.colVis.css">
+<link rel="stylesheet" href="~/vendor/datatables/media/css/dataTables.bootstrap.css">
+<link rel="stylesheet" href="~/vendor/dataTables.fontAwesome/index.css">
+<!-- SELECT2-->
+<link rel="stylesheet" href="~/vendor/select2/dist/css/select2.css">
+<link rel="stylesheet" href="~/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+
+<!-- Page content-->
+<div class="content-wrapper">
+    <h3>
+        Users
+    </h3>
+    <div class="container-fluid">
+        <div class="mb-lg clearfix">
+
+            <div class="pull-right">
+                <p class="mb0 mt-sm">@ViewBag.AdministratorsCount Administrators / @ViewBag.ProjectManagersCount Project Managers / @ViewBag.DevelopersCount Developers / @ViewBag.SubmittersCount Submitters</p>
+            </div>
+
+        </div>
+        
+        <!-- START DATATABLE ALL-->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-purple">
+                    <div class="panel-heading">
+                        All Users
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="datatable1" class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Current Roles</th> <!--have check boxes next to each name and a remove roles button to the right-->
+                                        <th>Assign additional roles</th> <!--^ with an add roles button-->
+                                        <th>Assign to projects</th>
+                                        <th>Assign to tickets</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.Users.Count; i++)
+                                    {
+                                        var user = Model.Users.ElementAt(i);
+                                        var roles = Model.UserRoles.ElementAt(i);
+                                        var nonRoles = Model.NonUserRoles.ElementAt(i);
+                                        var projects = Model.ProjectsForAssigning.ElementAt(i);
+                                        var tickets = Model.TicketsForAssigning.ElementAt(i);
+                                        <tr>
+                                            <td>@user.FirstName @user.LastName</td>
+                                            <td>
+                                                @using (Html.BeginForm("RoleUnassign", "Users"))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    Model.UserId = user.Id;
+                                                    @Html.HiddenFor(m => m.UserId)
+                                                    <div class="form-group">
+                                                        <div class="col-sm-10">
+                                                            <div class="checkbox c-checkbox">
+
+                                                                @foreach (var role in roles)
+                                                                {
+                                                                    <label>
+                                                                        <input type="checkbox" name="Roles" value="@role.Id" />
+                                                                        <span class="fa fa-check"></span>
+                                                                    </label>
+                                                                    @role.Name
+                                                                }
+
+                                                            </div>
+                                                            @if (roles.Any())
+                                                            {
+                                                                <span class="input-group-btn">
+                                                                    <input type="submit" value="Unassign" class="btn btn-default" />
+                                                                </span>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </td>
+                                            <td>
+                                                @using (Html.BeginForm("RoleAssign", "Users"))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    Model.UserId = user.Id;
+                                                    @Html.HiddenFor(m => m.UserId)
+
+                                                    <div class="col-sm-10">
+                                                        <div class="checkbox c-checkbox">
+                                                                
+                                                                @foreach (var role in nonRoles)
+                                                                {
+                                                                    <label>
+                                                                        <input type="checkbox" name="Roles" value="@role.Id" />
+                                                                        <span class="fa fa-check"></span>
+                                                                        @role.Name
+                                                                    </label>
+                                                                        
+                                                                }
+                                                                
+                                                        </div>
+                                                        @if (nonRoles.Any())
+                                                        {
+                                                        <span class="input-group-btn">
+                                                            <input type="submit" value="Assign" class="btn btn-default" />
+                                                        </span>
+                                                        }
+                                                    </div>
+                                                }
+                                        </td>
+                                        <td>
+                                            @using (Html.BeginForm("ProjectAssign", "Users"))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                Model.UserId = user.Id;
+                                                @Html.HiddenFor(m => m.UserId)
+
+                                                <div class="col-sm-10">
+                                                    <div>
+    
+                                                        <select name="Projects" multiple="multiple" class="form-control select2-1">
+                                                            @foreach (var project in projects)
+                                                            {
+                                                                <option value="@project.Id">@project.Name</option>
+                                                            }
+                                                        </select>
+                                                        <span class="input-group-btn">
+                                                            <input type="submit" value="Assign" class="btn btn-default" />
+                                                        </span>
+  
+                                                    </div>
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @using (Html.BeginForm("TicketAssign", "Users"))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                Model.UserId = user.Id;
+                                                @Html.HiddenFor(m => m.UserId)
+
+                                                <div class="col-sm-10">
+                                                    <div>
+                                                        <select name="Tickets" multiple="multiple" class="form-control select2-1">
+                                                            @foreach (var ticket in tickets)
+                                                            {
+                                                                <option value="@ticket.Id">@ticket.Title</option>
+                                                            }
+                                                        </select>
+                                                        <span class="input-group-btn">
+                                                            <input type="submit" value="Assign" class="btn btn-default" />
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <!-- DATATABLES-->
+    <script src="~/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
+    <script src="~/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
+    <script src="~/vendor/datatables-buttons/js/dataTables.buttons.js"></script>
+    <script src="~/vendor/datatables-buttons/js/buttons.bootstrap.js"></script>
+    <script src="~/vendor/datatables-buttons/js/buttons.colVis.js"></script>
+    <script src="~/vendor/datatables-buttons/js/buttons.flash.js"></script>
+    <script src="~/vendor/datatables-buttons/js/buttons.html5.js"></script>
+    <script src="~/vendor/datatables-buttons/js/buttons.print.js"></script>
+    <script src="~/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
+    <script src="~/vendor/datatables-responsive/js/responsive.bootstrap.js"></script>
+    <script src="~/app/js/demo/demo-datatable.js"></script>
+    <!--select2-->
+    <script src="~/vendor/select2/dist/js/select2.js"></script>
+}

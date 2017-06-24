@@ -1,0 +1,11 @@
+﻿@model BugTracker.Models.UsersViewModel
+
+<h2>@Model.User.FirstName @Model.User.LastName</h2>
+
+@if (Model.UserRoles.Any())
+{
+    foreach(var role in Model.UserRoles)
+    {
+        <p>@role</p>
+    }
+}

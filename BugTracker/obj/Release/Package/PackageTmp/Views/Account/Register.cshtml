@@ -1,0 +1,118 @@
+﻿@model BugTracker.Models.RegisterViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Bootstrap Admin App + jQuery">
+    <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
+    <title>KF BugTracker</title>
+    <!-- =============== VENDOR STYLES ===============-->
+    <!-- FONT AWESOME-->
+    <link rel="stylesheet" href="~/vendor/fontawesome/css/font-awesome.min.css">
+    <!-- SIMPLE LINE ICONS-->
+    <link rel="stylesheet" href="~/vendor/simple-line-icons/css/simple-line-icons.css">
+    <!-- =============== BOOTSTRAP STYLES ===============-->
+    <link rel="stylesheet" href="~/app/css/bootstrap.css" id="bscss">
+    <!-- =============== APP STYLES ===============-->
+    <link rel="stylesheet" href="~/app/css/app.css" id="maincss">
+    <link href="~/app/css/custom.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="wrapper">
+        <div class="block-center mt-xl wd-xl">
+            <!-- START panel-->
+            <div class="panel panel-dark panel-flat">
+                <div class="panel-heading text-center">
+                    <a href="@Url.Action("Landing", "Home")" class="logo-register">
+                        @*<img src="~/app/img/logo.png" alt="Image" class="block-center img-rounded">*@
+                        ReSolve
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <p class="text-center pv">SIGNUP TO GET INSTANT ACCESS.</p>
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "mb-lg", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group has-feedback">
+                            <label for="FirstName" class="text-muted">First Name</label>
+                            <input id="FirstName" name="FirstName" type="text" placeholder="First Name" autocomplete="off" required class="form-control">
+                            <span class="fa fa-user form-control-feedback text-muted"></span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label for="LastName" class="text-muted">Last Name</label>
+                            <input id="LastName" name="LastName" type="text" placeholder="Last Name" autocomplete="off" required class="form-control">
+                            <span class="fa fa-user form-control-feedback text-muted"></span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label for="Email" class="text-muted">Email address</label>
+                            <input id="Email" name="Email" type="email" placeholder="Email" autocomplete="off" required class="form-control">
+                            <span class="fa fa-envelope form-control-feedback text-muted"></span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label for="Password" class="text-muted">Password</label>
+                            <input id="Password" name="Password" type="password" placeholder="Password" autocomplete="off" required class="form-control">
+                            <span class="fa fa-lock form-control-feedback text-muted"></span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label for="ConfirmPassword" class="text-muted">Retype Password</label>
+                            <input id="ConfirmPassword" name="ConfirmPassword" type="password" placeholder="Retype Password" autocomplete="off" required data-parsley-equalto="#Password" class="form-control">
+                            <span class="fa fa-lock form-control-feedback text-muted"></span>
+                        </div>
+                        <div class="clearfix">
+                            <div class="checkbox c-checkbox pull-left mt0">
+                                <label>
+                                    <input type="checkbox" value="" required name="agreed">
+                                    <span class="fa fa-check"></span>I agree with the <a href="" data-toggle="modal" data-target="#terms-modal">terms</a>
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-block btn-primary mt-lg">Create account</button>
+                    }
+                    <p class="pt-lg text-center">Have an account?</p><a href="@Url.Action("Login","Account")" class="btn btn-block btn-default">Sign In</a>
+                </div>
+            </div>
+            <!-- END panel-->
+        </div>
+    </div>
+
+    <!-- Terms Modal -->
+    <div class="modal fade" id="terms-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h1 class="modal-title" id="myModalLabel">Terms</h1>
+                </div>
+                <div class="modal-body col-sm-12">
+                    <p>There are no actual terms, but I applaud you for checking.</p>
+                </div>
+                <div class="modal-footer no-margin">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============== VENDOR SCRIPTS ===============-->
+    <!-- MODERNIZR-->
+    <script src="~/vendor/modernizr/modernizr.custom.js"></script>
+    <!-- JQUERY-->
+    <script src="~/vendor/jquery/dist/jquery.js"></script>
+    <!-- BOOTSTRAP-->
+    <script src="~/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- STORAGE API-->
+    <script src="~/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
+    <!-- PARSLEY-->
+    <script src="~/vendor/parsleyjs/dist/parsley.min.js"></script>
+    <!-- =============== APP SCRIPTS ===============-->
+    <script src="~/app/js/app.js"></script>
+</body>
+
+</html>

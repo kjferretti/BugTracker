@@ -1,0 +1,172 @@
+﻿@model BugTracker.Models.NewIndexViewModel
+
+@*<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Change your account settings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Name:</dt>
+        <dd>[ @Html.ActionLink("Change your name", "ChangeName") ]</dd>
+        <dt>Password:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Change your password", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Create", "SetPassword")
+            }
+            ]
+        </dd>
+        <dt>External Logins:</dt>
+        <dd>
+            @Model.Logins.Count [
+            @Html.ActionLink("Manage", "ManageLogins") ]
+        </dd>
+        <dt>Email Confirmation:</dt>
+        <dd>[ @Html.ActionLink("Resend Email Confirmation", "ResendEmailConfirmation", "Account") ]</dd>*@
+        @*
+            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+
+             See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+
+             Uncomment the following block after you have set up two-factor authentication
+        *@
+        @*
+            <dt>Phone Number:</dt>
+            <dd>
+                @(Model.PhoneNumber ?? "None")
+                @if (Model.PhoneNumber != null)
+                {
+                    <br />
+                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
+                    }
+                }
+                else
+                {
+                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+                }
+            </dd>
+        *@
+        @*<dt>Two-Factor Authentication:</dt>
+        <dd>
+            <p>
+                There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                for details on setting up this ASP.NET application to support two-factor authentication.
+            </p>*@
+            @*@if (Model.TwoFactor)
+                {
+                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Enabled
+                        <input type="submit" value="Disable" class="btn btn-link" />
+                        </text>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Disabled
+                        <input type="submit" value="Enable" class="btn btn-link" />
+                        </text>
+                    }
+                }*@
+        @*</dd>
+    </dl>
+</div>*@
+
+<!-- Page content-->
+<div class="content-wrapper">
+    <h3>
+        Manage your account
+    </h3>
+    <div class="container-fluid">
+        <!-- START row-->
+        <div class="row">
+            <div class="col-lg-5">
+                <!-- START panel-->
+                <div id="panelDemo14" class="panel panel-default">
+                    @*<div class="panel-heading"></div>*@
+                    <div class="panel-body">
+                        <div role="tabpanel">
+                            <!-- Nav tabs-->
+                            <ul role="tablist" class="nav nav-tabs">
+                                <li role="presentation" class="active">
+                                    <a href="#nameChange" aria-controls="home" role="tab" data-toggle="tab">Change your name</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#pwChange" aria-controls="profile" role="tab" data-toggle="tab">Change your Password</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#resend" aria-controls="messages" role="tab" data-toggle="tab">Resend Email Confirmation</a>
+                                </li>
+                                @*<li role="presentation">
+                                    <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
+                                </li>*@
+                            </ul>
+                            <!-- Tab panes-->
+                            <div class="tab-content">
+                                <div id="nameChange" role="tabpanel" class="tab-pane active">
+                                    <form role="form" action="/Manage/ChangeName" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+                                            <label>New First Name</label>
+                                            <input type="text" placeholder="Enter first name" class="form-control" name="NewFirstName">
+                                            @Html.ValidationMessageFor(model => model.NewFirstName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label>New Last Name</label>
+                                            <input type="text" placeholder="Enter last name" class="form-control" name="NewLastName">
+                                            @Html.ValidationMessageFor(model => model.NewLastName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <button type="submit" class="btn btn-sm btn-purple">Change Name</button>
+                                    </form>
+                                </div>
+                                <div id="pwChange" role="tabpanel" class="tab-pane">
+                                    <form role="form" action="/Manage/ChangePassword" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+                                            <label>Current password</label>
+                                            <input type="password" placeholder="Enter current password" class="form-control" name="OldPassword">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>New password</label>
+                                            <input type="password" placeholder="Enter new password" class="form-control" name="NewPassword">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Confirm new password</label>
+                                            <input type="password" placeholder="Re-enter new password" class="form-control" name="ConfirmPassword">
+                                        </div>
+                                        <button type="submit" class="btn btn-sm btn-purple">Change Password</button>
+                                    </form>
+                                </div>
+                                <div id="resend" role="tabpanel" class="tab-pane">
+                                    <form role="form" action="/Account/ResendEmailConfirmation" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="email" placeholder="Enter email" class="form-control" name="Email">
+                                        </div>
+                                        <button type="submit" class="btn btn-sm btn-purple">Email Link</button>
+                                    </form>
+                                </div>
+                                @*<div id="settings" role="tabpanel" class="tab-pane">Sed commodo tellus ut mi tristique pharetra.</div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END panel-->
+            </div>
+        </div>
+    </div>
+</div>

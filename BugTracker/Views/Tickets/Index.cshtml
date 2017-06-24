@@ -1,0 +1,145 @@
+﻿@model IEnumerable<BugTracker.Models.CodeFirst.Ticket>
+@using Microsoft.AspNet.Identity
+
+<!-- DATATABLES-->
+<link rel="stylesheet" href="~/vendor/datatables-colvis/css/dataTables.colVis.css">
+<link rel="stylesheet" href="~/vendor/datatables/media/css/dataTables.bootstrap.css">
+<link rel="stylesheet" href="~/vendor/dataTables.fontAwesome/index.css">
+
+<div class="content-wrapper">
+    <h3>Tickets</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mb-lg clearfix">
+                <div class="pull-left">
+                    @if (User.IsInRole("Submitter")) { 
+                    <button type="button" class="btn btn-sm btn-info" onclick="location.href='@Url.Action("Create")';">New ticket</button>
+                    }
+                </div>
+                <div class="pull-right">
+                    <p class="mb0 mt-sm">@ViewBag.BugsCount bugs / @ViewBag.IssuesCount issues</p>
+                </div>
+            </div>
+            <div class="panel b panel-purple">
+                <div class="panel-heading">Your Tickets</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="datatable1" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>ID#</th>
+                                    <th>Description</th>
+                                    <th>Project</th>
+                                    <th>Status</th>
+                                    <th>Priority</th>
+                                    <th>Submitter</th>
+                                    <th>Assigned</th>
+                                    
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var ticket in Model)
+                                {
+                                    if(ticket.TicketStatus.Name != "Resolved")
+                                    {
+                                <tr>
+                                    <td>
+                                        <div class="badge bg-gray-lighter">@ticket.TicketType.Name</div>
+                                    </td>
+                                    <td>@ticket.Title</td>
+                                    <td>
+                                        <small>@ticket.Description</small>
+                                    </td>
+                                    <td>@ticket.Project.Name</td>
+                                    <td>
+                                            @if (ticket.TicketStatus.Name == "Unassigned")
+                                            {
+                                                <div class="inline wd-xxs label label-primary">Unassigned</div>
+                                            }
+                                            @if (ticket.TicketStatus.Name == "Assigned")
+                                            {
+                                                <div class="inline wd-xxs label label-green">Assigned</div>
+                                            }
+                                            @if (ticket.TicketStatus.Name == "Resolved")
+                                            {
+                                                <div class="inline wd-xxs label label-danger">Resolved</div>
+                                            }
+                                    </td>
+                                    <td>
+                                        @if (ticket.TicketPriority.Name == "High")
+                                        {
+                                            <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-danger"></div><span> High</span>
+                                        }
+                                        @if (ticket.TicketPriority.Name == "Medium")
+                                        {
+                                            <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-warning"></div><span> Medium</span>
+                                        }
+                                        @if (ticket.TicketPriority.Name == "Low")
+                                        {
+                                            <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-success"></div><span> Low</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @ticket.Submitter.FirstName @ticket.Submitter.LastName
+                                    </td>
+                                    <td>
+                                        @if (ticket.AssignedToId == null)
+                                        {
+                                            <span>N/A</span>
+                                        }
+                                        else
+                                        {
+                                            @ticket.AssignedTo.FirstName<span> </span>@ticket.AssignedTo.LastName
+                                        }
+
+                                    </td>
+                                  
+                                    <td>
+                                        <div class="btn-group index-btns">
+                                            @if (User.IsInRole("Administrator") || (User.IsInRole("Project Manager") && ticket.Project.InChargeOfId == User.Identity.GetUserId()))
+                                            {
+                                            <button class="btn btn-xs btn-labeled btn-green" onclick="location.href='@Url.Action("Assign", new { ticketId = ticket.Id })';">
+                                                <span class="btn-label pull-left"><i class="fa fa-user-plus"></i></span>
+                                                Assign
+                                            </button>
+                                            }
+                                            <button class="btn btn-xs btn-labeled btn-warning" onclick="location.href='@Url.Action("Edit",new { id = ticket.Id })';">
+                                                <span class="btn-label pull-left"><i class="fa fa-edit"></i></span>
+                                                Edit
+                                            </button>
+                                            <button class="btn btn-xs btn-labeled btn-success" onclick="location.href='@Url.Action("Details",new { id = ticket.Id })';">
+                                                <span class="btn-label pull-left"><i class="fa fa-search"></i></span>
+                                                Details
+                                            </button>
+                                            @if (User.IsInRole("Administrator"))
+                                            {
+                                            <button class="btn btn-xs btn-labeled btn-danger" onclick="location.href='@Url.Action("Delete", new { id = ticket.Id })';">
+                                                <span class="btn-label pull-left"><i class="fa fa-trash"></i></span>
+                                                Resolved
+                                            </button>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <!-- DATATABLES-->
+    <script src="~/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
+    <script src="~/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
+    <script src="~/app/js/demo/demo-datatable.js"></script>
+    }

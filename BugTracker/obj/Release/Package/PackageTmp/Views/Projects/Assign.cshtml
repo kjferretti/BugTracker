@@ -1,0 +1,68 @@
+﻿@model BugTracker.Models.ProjectAssignViewModel
+
+<!-- SELECT2-->
+<link rel="stylesheet" href="~/vendor/select2/dist/css/select2.css">
+<link rel="stylesheet" href="~/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+
+<div class="content-wrapper">
+    <h3>Assign users to this project</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="panel panel-purple">
+                    <div class="panel-heading">Choose users to be assigned</div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.projectId)
+
+                            <div class="form-horizontal">
+                                @*<div class="form-group">
+                                    @Html.LabelFor(model => model.Users, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">*@
+                                @*@Html.ListBoxFor(m => m.Selected, ViewBag.Topics, new { Multiple = "multiple" })*@
+                                @*@Html.ListBox("Users", null, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Users, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
+
+                                <div class="form-group mb">
+                                    @*<label class="col-sm-2 control-label mb">Select2</label>*@
+                                    @Html.LabelFor(model => model.Users, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-sm-10">
+                                        @*<p class="mv">Multiple Pills</p>*@
+                                        <select name="Users" id="select2-3" multiple="multiple" class="form-control">
+                                            @foreach (var user in Model.UnassignedUserList)
+                                            {
+                                                <option value="@user.Id">@user.FirstName @user.LastName</option>
+                                            }
+                                        </select>
+                                        @Html.ValidationMessageFor(model => model.Users, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Save" class="btn btn-info" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-success btn-labeled btn-xs col-lg-offset-9" onclick="location.href='@Url.Action("Index")';">
+                            <span class="btn-label"><i class="icon-list"></i></span>
+                            Back to List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <!-- SELECT2-->
+<script src="~/vendor/select2/dist/js/select2.js"></script>
+    }

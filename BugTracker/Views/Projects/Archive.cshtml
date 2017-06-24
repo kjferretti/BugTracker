@@ -1,0 +1,53 @@
+﻿@model BugTracker.Models.CodeFirst.Project
+
+<div class="content-wrapper">
+    <h3>Archive this project</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="panel panel-purple">
+                    <div class="panel-heading">Are you sure you want to archive this project?</div>
+                    <div class="panel-body">
+                        <dl class="">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Name):
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Name)
+                            </dd>
+                            <br />
+                            <dt>
+                                Project Manager:
+                            </dt>
+
+                            <dd>
+                                @Model.InChargeOfName
+                            </dd>
+                            <br />
+                            <dt>
+                                Assigned Users:
+                            </dt>
+
+                            @foreach (var user in Model.Users)
+                            {
+                                <dd>@user.FirstName @user.LastName </dd>
+                                @*<br />*@
+                            }
+                        </dl>
+                        @using (Html.BeginForm())
+                        {
+                            <input type="submit" value="Archive" class="btn btn-danger" />
+                        }
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-success btn-labeled btn-xs col-lg-offset-8" onclick="location.href='@Url.Action("Details", new { id = Model.Id })';">
+                            <span class="btn-label"><i class="icon-chemistry"></i></span>
+                            Back to Project
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

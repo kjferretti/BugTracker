@@ -1,0 +1,82 @@
+﻿@model BugTracker.Models.NewIndexViewModel
+
+<!-- Page content-->
+<div class="content-wrapper">
+    <h3>
+        Manage your account
+    </h3>
+    <div class="container-fluid">
+        <!-- START row-->
+        <div class="row">
+            <div class="col-lg-5">
+                <!-- START panel-->
+                <div id="panelDemo14" class="panel panel-default">
+                    <div class="panel-body">
+                        <div role="tabpanel">
+                            <!-- Nav tabs-->
+                            <ul role="tablist" class="nav nav-tabs">
+                                <li role="presentation" class="active">
+                                    <a href="#nameChange" aria-controls="home" role="tab" data-toggle="tab">Change your name</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#pwChange" aria-controls="profile" role="tab" data-toggle="tab">Change your Password</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#resend" aria-controls="messages" role="tab" data-toggle="tab">Resend Email Confirmation</a>
+                                </li>
+                            </ul>
+                            <!-- Tab panes-->
+                            <div class="tab-content">
+                                <div id="nameChange" role="tabpanel" class="tab-pane active">
+                                    <form role="form" action="/Manage/ChangeName" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+                                            <label>New First Name</label>
+                                            <input type="text" placeholder="Enter first name" class="form-control" name="NewFirstName">
+                                            @Html.ValidationMessageFor(model => model.NewFirstName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label>New Last Name</label>
+                                            <input type="text" placeholder="Enter last name" class="form-control" name="NewLastName">
+                                            @Html.ValidationMessageFor(model => model.NewLastName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <button type="submit" class="btn btn-sm btn-purple">Change Name</button>
+                                    </form>
+                                </div>
+                                <div id="pwChange" role="tabpanel" class="tab-pane">
+                                    <form role="form" action="/Manage/ChangePassword" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+                                            <label>Current password</label>
+                                            <input type="password" placeholder="Enter current password" class="form-control" name="OldPassword">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>New password</label>
+                                            <input type="password" placeholder="Enter new password" class="form-control" name="NewPassword">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Confirm new password</label>
+                                            <input type="password" placeholder="Re-enter new password" class="form-control" name="ConfirmPassword">
+                                        </div>
+                                        <button type="submit" class="btn btn-sm btn-purple">Change Password</button>
+                                    </form>
+                                </div>
+                                <div id="resend" role="tabpanel" class="tab-pane">
+                                    <form role="form" action="/Account/ResendEmailConfirmation" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="email" placeholder="Enter email" class="form-control" name="Email">
+                                        </div>
+                                        <button type="submit" class="btn btn-sm btn-purple">Email Link</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END panel-->
+            </div>
+        </div>
+    </div>
+</div>

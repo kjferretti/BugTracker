@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Test";
+}
+
+<h2>Test</h2>
+
+<h3>Current Roles</h3>
+@foreach (var role in ViewBag.Roles)
+{
+    <h6>@role</h6>
+}
+
+<h3>Current Projects</h3>
+@foreach (var project in ViewBag.Projects)
+{
+    <h6>@project.Name</h6>
+}

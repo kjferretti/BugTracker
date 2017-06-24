@@ -1,0 +1,1124 @@
+﻿@model BugTracker.Models.DashboardViewModel
+@using BugTracker.Helper_Classes
+@using Microsoft.AspNet.Identity
+
+ <!-- DATATABLES-->
+<link rel="stylesheet" href="~/vendor/datatables-colvis/css/dataTables.colVis.css">
+<link rel="stylesheet" href="~/vendor/datatables/media/css/dataTables.bootstrap.css">
+<link rel="stylesheet" href="~/vendor/dataTables.fontAwesome/index.css">
+
+@*<h2>@User.Identity.GetUserName()</h2>*@
+@if (User.IsInRole("Administrator"))
+{
+<!-- Page content-->
+<div class="content-wrapper">
+    <div class="content-heading">
+        Your Dashboard
+        <small data-localize="dashboard.WELCOME"></small>
+    </div>
+    <!-- START row-->
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <!-- START panel-->
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <em class="fa fa-warning fa-5x"></em>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="text-lg">@ViewBag.HighPriorityTicketsCount</div>
+                            <p class="m0">High Priority @if (ViewBag.HighPriorityTicketsCount != 1) {<span>Tickets</span>}@if (ViewBag.HighPriorityTicketsCount == 1) {<span>Ticket</span>}</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Index", "Projects")" class="panel-footer bg-gray-dark bt0 clearfix btn-block">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right">
+                        <em class="fa fa-chevron-circle-right"></em>
+                    </span>
+                </a>
+                <!-- END panel-->
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <!-- START panel-->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <em class="icon icon-like fa-5x"></em>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="text-lg">@ViewBag.RecentlyResolvedCount</div>
+                            <p class="m0">Recently Resolved @if (ViewBag.RecentlyResolvedCount != 1) {<span>Tickets</span>}@if (ViewBag.RecentlyResolvedCount == 1) {<span>Ticket</span>}</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Resolved", "Tickets")" class="panel-footer bg-gray-dark bt0 clearfix btn-block">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right">
+                        <em class="fa fa-chevron-circle-right"></em>
+                    </span>
+                </a>
+            </div>
+            <!-- END panel-->
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <!-- START panel-->
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <em class="fa fa-ticket fa-5x"></em>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="text-lg">@ViewBag.RecentChangesCount</div>
+                            <p class="m0">Recent Tickets @if (ViewBag.RecentChangesCount != 1) {<span>Changes</span>}@if (ViewBag.RecentChangesCount == 1) {<span>Change</span>}</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Index","Tickets")" class="panel-footer bg-gray-dark bt0 clearfix btn-block">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right">
+                        <em class="fa fa-chevron-circle-right"></em>
+                    </span>
+                </a>
+            </div>
+            <!-- END panel-->
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <!-- START panel-->
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <em class="icon icon-people fa-5x"></em>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="text-lg">@ViewBag.RecentlyAssignedTicketsCount</div>
+                            <p class="m0">Recently Assigned @if (ViewBag.RecentlyAssignedTicketsCount != 1) {<span>Tickets</span>}@if (ViewBag.RecentlyAssignedTicketsCount == 1) {<span>Ticket</span>}</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Index","Tickets")" class="panel-footer bg-gray-dark bt0 clearfix btn-block">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right">
+                        <em class="fa fa-chevron-circle-right"></em>
+                    </span>
+                </a>
+            </div>
+            <!-- END panel-->
+        </div>
+    </div>
+    <!-- END row-->
+    <!-- END widgets box-->
+    <div class="row">
+        <!-- START dashboard main content-->
+        <div class="col-lg-9">
+            <div class="row">
+                @*<div class="col-lg-8">
+                </div>*@
+                <div class="panel panel-purple">
+                    <div class="panel-heading">
+                        Unassigned Tickets
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="ddatatable table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>ID#</th>
+                                        <th>Description</th>
+                                        <th>Project</th>
+                                        <th>Status</th>
+                                        <th>Priority</th>
+                                        <th>Submitter</th>
+                                        <th>Assigned</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var ticket in Model.Tickets)
+                                    {
+                                        if (ticket.TicketStatus.Name != "Resolved")
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="badge bg-gray-lighter">@ticket.TicketType.Name</div>
+                                                </td>
+                                                @*<td>BI:54678</td>*@
+                                                <td>@ticket.Title</td>
+                                                <td>
+                                                    <small>@ticket.Description</small>
+                                                </td>
+                                                <td>@ticket.Project.Name</td>
+                                                @*<td>@Html.DisplayFor(t=>ticket.Created)</td>*@
+                                                <td>
+                                                    @if (ticket.TicketStatus.Name == "Unassigned")
+                                                    {
+                                                        <div class="inline wd-xxs label label-primary">Unassigned</div>
+                                                    }
+                                                    @if (ticket.TicketStatus.Name == "Assigned")
+                                                    {
+                                                        <div class="inline wd-xxs label label-green">Assigned</div>
+                                                    }
+                                                    @if (ticket.TicketStatus.Name == "Resolved")
+                                                    {
+                                                        <div class="inline wd-xxs label label-danger">Resolved</div>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (ticket.TicketPriority.Name == "High")
+                                                    {
+                                                        <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-danger"></div><span> High</span>
+                                                    }
+                                                    @if (ticket.TicketPriority.Name == "Medium")
+                                                    {
+                                                        <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-warning"></div><span> Medium</span>
+                                                    }
+                                                    @if (ticket.TicketPriority.Name == "Low")
+                                                    {
+                                                        <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-success"></div><span> Low</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @*<a href="@Url.Action("Details","Users",new { userId = ticket.SubmitterId })">*@@ticket.Submitter.FirstName @ticket.Submitter.LastName@*</a>*@
+                                                </td>
+                                                <td>
+                                                    @if (ticket.AssignedToId == null)
+                                                    {
+                                                        <span>N/A</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @*<a href="@Url.Action("Details","Users",new { userId = ticket.AssignedToId })">*@@ticket.AssignedTo.FirstName @ticket.AssignedTo.LastName@*</a>*@
+                                                    }
+
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group index-btns">
+                                                        @if (User.IsInRole("Administrator") || (User.IsInRole("Project Manager") && ticket.Project.InChargeOfId == User.Identity.GetUserId()))
+                                                        {
+                                                            <button class="btn btn-xs btn-labeled btn-green" onclick="location.href='@Url.Action("Assign","Tickets", new { ticketId = ticket.Id })';">
+                                                                <span class="btn-label pull-left"><i class="fa fa-user-plus"></i></span>
+                                                                Assign
+                                                            </button>
+                                                        }
+                                                        <button class="btn btn-xs btn-labeled btn-warning" onclick="location.href='@Url.Action("Edit","Tickets",new { id = ticket.Id })';">
+                                                            <span class="btn-label pull-left"><i class="fa fa-edit"></i></span>
+                                                            Edit
+                                                        </button>
+                                                        <button class="btn btn-xs btn-labeled btn-success" onclick="location.href='@Url.Action("Details","Tickets",new { id = ticket.Id })';">
+                                                            <span class="btn-label pull-left"><i class="fa fa-search"></i></span>
+                                                            Details
+                                                        </button>
+                                                        @if (User.IsInRole("Administrator"))
+                                                        {
+                                                            <button class="btn btn-xs btn-labeled btn-danger" onclick="location.href='@Url.Action("Delete", "Tickets",new { id = ticket.Id })';">
+                                                                <span class="btn-label pull-left"><i class="fa fa-trash"></i></span>
+                                                                Resolved
+                                                            </button>
+                                                        }
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-purple">
+                    <div class="panel-heading">
+                        Your Projects
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="ddatatable table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Project Manager</th>
+                                        <th>Members</th>
+                                        <th>Tickets</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var project in Model.Projects)
+                                    {
+                                        <tr>
+                                            <td>@project.Name</td>
+                                            <td>@project.InChargeOfName</td>
+                                            <td>@foreach (var user in project.Users)
+                                            { <span>@user.FirstName @user.LastName</span><br /> }</td>
+                                            <td>@project.Tickets.Count()</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    @if (User.IsInRole("Submitter"))
+                                                    {
+                                                        <a class="btn btn-green btn-xs" href="@Url.Action("Create", "Tickets", new { projectId = project.Id })">
+                                                            <span class="btn-label"><i class="fa fa-ticket"></i></span>
+                                                            New Ticket
+                                                        </a>
+                                                    }
+                                                    @if (User.IsInRole("Administrator") || User.Identity.GetUserId() == project.InChargeOfId)
+                                                    {
+                                                        <a class="btn btn-primary btn-xs" href="@Url.Action("Assign", "Projects", new { projectId = project.Id })">
+                                                            <span class="btn-label"><i class="fa fa-user-plus"></i></span>
+                                                            Assign
+                                                        </a>
+                                                    }
+                                                    <a class="btn btn-info btn-xs" href="@Url.Action("Details", "Projects", new { id = project.Id })">
+                                                        <span class="btn-label"><i class="fa fa-search"></i></span>
+                                                        Details
+                                                    </a>
+                                                    @if (User.IsInRole("Administrator") || User.Identity.GetUserId() == project.InChargeOfId)
+                                                    {
+                                                        <a class="btn btn-warning btn-xs" href="@Url.Action("Edit", "Projects", new { id = project.Id })">
+                                                            <span class="btn-label"><i class="fa fa-edit"></i></span>
+                                                            Edit
+                                                        </a>
+                                                    }
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END dashboard main content-->
+        <!-- START dashboard sidebar-->
+        <aside class="col-lg-3">
+            <div class="panel panel-purple">
+                <div class="panel-heading">
+                    <div class="pull-right label label-success">@Model.TicketComments.Count</div>
+                    <div class="panel-title">Recent ticket comments</div>
+                </div>
+                <!-- START list group-->
+                <div data-height="250" data-scrollable="" class="list-group">
+                    <!-- START list group item-->
+                    @foreach (var comment in Model.TicketComments)
+                    {
+                        @*<a href="#" class="list-group-item">*@
+                        <div class="list-group-item">
+                            <div class="media-box">
+                                <div class="pull-left">
+                                    <img src="~/app/img/user/default-user.png" alt="Image" class="media-box-object img-circle thumb32">
+                                </div>
+                                <div class="media-box-body clearfix">
+                                    <small class="pull-right">@comment.TimeSincePosted</small>
+                                    <strong class="media-box-heading text-primary">
+                                        @{ UserRolesManager URManager = new UserRolesManager();
+                                            if (URManager.UserIsInRole(comment.UserId, "Administrator"))
+                                            {
+                                                <span class="circle circle-success circle-lg text-left">
+                                                </span>@comment.User.FirstName<span> </span>@comment.User.LastName <text>(<a href="@Url.Action("Details","Tickets",new { id = comment.Ticket.Id })">@comment.Ticket.Title</a>)</text>
+                                            }
+                                            else if (URManager.UserIsInRole(comment.UserId, "Project Manager"))
+                                            {
+                                                <span class="circle circle-info circle-lg text-left">
+                                                </span>@comment.User.FirstName<span> </span>@comment.User.LastName <text>(<a href="@Url.Action("Details","Tickets",new { id=comment.Ticket.Id })">@comment.Ticket.Title</a>)</text>
+
+    }
+    else if (URManager.UserIsInRole(comment.UserId, "Developer"))
+    {
+                                                <span class="circle circle-warning circle-lg text-left">
+                                                </span>@comment.User.FirstName<span> </span>@comment.User.LastName <text>(<a href="@Url.Action("Details","Tickets",new { id=comment.Ticket.Id })">@comment.Ticket.Title</a>)</text>
+    }
+    else if (URManager.UserIsInRole(comment.UserId, "Submitter"))
+    {
+                                                <span class="circle circle-danger circle-lg text-left">
+                                                </span>@comment.User.FirstName<span> </span>@comment.User.LastName  <text>(<a href="@Url.Action("Details","Tickets",new { id=comment.Ticket.Id })">@comment.Ticket.Title</a>)</text>
+                                            }
+                                        }
+                                    </strong>
+                                    <p class="mb-sm">
+                                        <small>@comment.Comment</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        @*</a>*@
+                                            }
+                    <!-- END list group item-->
+                </div>
+                <!-- END list group-->
+            </div>
+            <!-- START messages and activity-->
+            <div class="panel panel-purple">
+                <div class="panel-heading">
+                    <div class="pull-right label label-success">@Model.TicketAttachments.Count</div>
+                    <div class="panel-title">Latest ticket attachments</div>
+                </div>
+                <!-- START list group-->
+                <div data-height="250" data-scrollable="" class="list-group">
+                    @foreach (var attachment in Model.TicketAttachments)
+                    {
+                <!-- START list group item-->
+                        <div class="list-group-item">
+                            <div class="media-box">
+                                <div class="pull-left">
+                                    <span class="fa-stack">
+                                        @if (attachment.FileType == "upload")
+                                        {
+                                            <em class="fa fa-circle fa-stack-2x text-purple"></em>
+                                            <em class="fa fa-cloud-upload fa-stack-1x fa-inverse text-white"></em>
+                                        }
+                                        @if (attachment.FileType == "document")
+                                        {
+                                            <em class="fa fa-circle fa-stack-2x text-info"></em>
+                                            <em class="fa fa-file-text-o fa-stack-1x fa-inverse text-white"></em>
+                                        }
+                                    </span>
+                                </div>
+                                <div class="media-box-body clearfix">
+                                    <small class="text-muted pull-right ml">@attachment.TimeSincePosted</small>
+                                    <div class="media-box-heading">
+                                        @attachment.Description (<a href="@Url.Action("Details","Tickets",new { id=attachment.Ticket.Id })">@attachment.Ticket.Title</a>)
+                                    </div>
+                                    <p class="m0">
+                                        <small>
+                                            <a href="@attachment.FilePath" target="_blank">@attachment.FileUrl</a>
+                                        </small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!-- END list group item-->
+                </div>
+                <!-- END list group-->
+            </div>
+            <!-- END messages and activity-->
+        </aside>
+        <!-- END dashboard sidebar-->
+    </div>
+</div>
+}
+else if(User.IsInRole("Project Manager"))
+{
+<!-- Page content-->
+<div class="content-wrapper">
+    <div class="content-heading">
+        Your Dashboard
+        <small data-localize="dashboard.WELCOME"></small>
+    </div>
+    <!-- START row-->
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <!-- START panel-->
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <em class="fa fa-warning fa-5x"></em>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="text-lg">@ViewBag.HighPriorityTicketsCount</div>
+                            <p class="m0">High Priority Tickets</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action(" Index", "Projects" )" class="panel-footer bg-gray-dark bt0 clearfix btn-block">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right">
+                        <em class="fa fa-chevron-circle-right"></em>
+                    </span>
+                </a>
+                <!-- END panel-->
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <!-- START panel-->
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <em class="fa fa-ticket fa-5x"></em>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="text-lg">@ViewBag.RecentChangesCount</div>
+                            <p class="m0">Recent Tickets Changes</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action(" Index","Tickets")" class="panel-footer bg-gray-dark bt0 clearfix btn-block">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right">
+                        <em class="fa fa-chevron-circle-right"></em>
+                    </span>
+                </a>
+            </div>
+            <!-- END panel-->
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <!-- START panel-->
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <em class="icon icon-people fa-5x"></em>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="text-lg">@ViewBag.RecentlyAssignedTicketsCount</div>
+                            <p class="m0">Recently Assigned Tickets</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action(" Index","Tickets")" class="panel-footer bg-gray-dark bt0 clearfix btn-block">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right">
+                        <em class="fa fa-chevron-circle-right"></em>
+                    </span>
+                </a>
+            </div>
+            <!-- END panel-->
+        </div>
+    </div>
+    <!-- END row-->
+    <!-- END widgets box-->
+    <div class="row">
+        <!-- START dashboard main content-->
+        <div class="col-lg-9">
+            <div class="row">
+                @*<div class="col-lg-8">
+                </div>*@
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Unassigned Tickets
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="ddatatable table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>ID#</th>
+                                        <th>Description</th>
+                                        <th>Project</th>
+                                        <th>Status</th>
+                                        <th>Priority</th>
+                                        <th>Submitter</th>
+                                        <th>Assigned</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var ticket in Model.Tickets)
+                                    {
+                                        if (ticket.TicketStatus.Name != "Resolved")
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="badge bg-gray-lighter">@ticket.TicketType.Name</div>
+                                                </td>
+                                                @*<td>BI:54678</td>*@
+                                                <td></td>
+                                                <td>@ticket.Title</td>
+                                                <td>
+                                                    <small>@ticket.Description</small>
+                                                </td>
+                                                <td>@ticket.Project.Name</td>
+                                                @*<td>@Html.DisplayFor(t=>ticket.Created)</td>*@
+                                                <td></td>
+                                                <td>
+                                                    @if (ticket.TicketStatus.Name == "Unassigned")
+                                                    {
+                                                        <div class="inline wd-xxs label label-primary">Unassigned</div>
+                                                    }
+                                                    @if (ticket.TicketStatus.Name == "Assigned")
+                                                    {
+                                                        <div class="inline wd-xxs label label-green">Assigned</div>
+                                                    }
+                                                    @if (ticket.TicketStatus.Name == "Resolved")
+                                                    {
+                                                        <div class="inline wd-xxs label label-danger">Resolved</div>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (ticket.TicketPriority.Name == "High")
+                                                    {
+                                                        <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-danger"></div><span> High</span>
+                                                    }
+                                                    @if (ticket.TicketPriority.Name == "Medium")
+                                                    {
+                                                        <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-warning"></div><span> Medium</span>
+                                                    }
+                                                    @if (ticket.TicketPriority.Name == "Low")
+                                                    {
+                                                        <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-success"></div><span> Low</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <a href="@Url.Action(" Details","Users",new { userId=ticket.SubmitterId })">@ticket.Submitter.FirstName @ticket.Submitter.LastName</a>
+                                                </td>
+                                                <td>
+                                                    @if (ticket.AssignedToId == null)
+                                                    {
+                                                        <span>N/A</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Action(" Details","Users",new { userId=ticket.AssignedToId })">@ticket.AssignedTo.FirstName @ticket.AssignedTo.LastName</a>
+                                                    }
+
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group index-btns">
+                                                        @if (User.IsInRole("Administrator") || (User.IsInRole("Project Manager") && ticket.Project.InChargeOfId == User.Identity.GetUserId()))
+                                                        {
+                                                            <button class="btn btn-xs btn-labeled btn-green" onclick="location.href='@Url.Action(" Assign", new { ticketId=ticket.Id })';">
+                                                                <span class="btn-label pull-left"><i class="fa fa-user-plus"></i></span>
+                                                                Assign
+                                                            </button>
+                                                        }
+                                                        <button class="btn btn-xs btn-labeled btn-warning" onclick="location.href='@Url.Action(" Edit",new { id=ticket.Id })';">
+                                                            <span class="btn-label pull-left"><i class="fa fa-edit"></i></span>
+                                                            Edit
+                                                        </button>
+                                                        <button class="btn btn-xs btn-labeled btn-success" onclick="location.href='@Url.Action(" Details",new { id=ticket.Id })';">
+                                                            <span class="btn-label pull-left"><i class="fa fa-search"></i></span>
+                                                            Details
+                                                        </button>
+                                                        @if (User.IsInRole("Administrator"))
+                                                        {
+                                                            <button class="btn btn-xs btn-labeled btn-danger" onclick="location.href='@Url.Action(" Delete", new { id=ticket.Id })';">
+                                                                <span class="btn-label pull-left"><i class="fa fa-trash"></i></span>
+                                                                Resolved
+                                                            </button>
+                                                        }
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Your Projects
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="ddatatable table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Project Manager</th>
+                                        <th>Members</th>
+                                        <th>Tickets</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var project in Model.Projects)
+                                    {
+                                        <tr>
+                                            <td>@project.Name</td>
+                                            <td>@project.InChargeOfName</td>
+                                            <td>
+                                                @foreach (var user in project.Users)
+                                            { <span>@user.FirstName @user.LastName</span><br /> }
+                                        </td>
+                                        <td>@project.Tickets.Count()</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                @if (User.IsInRole("Submitter"))
+                                                {
+                                                    <a class="btn btn-green btn-xs" href="@Url.Action(" Create", "Tickets" , new { projectId=project.Id })">
+                                                        <span class="btn-label"><i class="fa fa-ticket"></i></span>
+                                                        New Ticket
+                                                    </a>
+                                                }
+                                                @if (User.IsInRole("Administrator") || User.Identity.GetUserId() == project.InChargeOfId)
+                                                {
+                                                    <a class="btn btn-primary btn-xs" href="@Url.Action(" Assign", new { projectId=project.Id })">
+                                                        <span class="btn-label"><i class="fa fa-user-plus"></i></span>
+                                                        Assign
+                                                    </a>
+                                                }
+                                                <a class="btn btn-info btn-xs" href="@Url.Action(" Details", new { id=project.Id })">
+                                                    <span class="btn-label"><i class="fa fa-search"></i></span>
+                                                    Details
+                                                </a>
+                                                @if (User.IsInRole("Administrator") || User.Identity.GetUserId() == project.InChargeOfId)
+                                                {
+                                                    <a class="btn btn-warning btn-xs" href="@Url.Action(" Edit", new { id=project.Id })">
+                                                        <span class="btn-label"><i class="fa fa-edit"></i></span>
+                                                        Edit
+                                                    </a>
+                                                }
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END dashboard main content-->
+        <!-- START dashboard sidebar-->
+        <aside class="col-lg-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="pull-right label label-success">@Model.TicketComments.Count</div>
+                    <div class="panel-title">Recent ticket comments</div>
+                </div>
+                <!-- START list group-->
+                <div data-height="220" data-scrollable="" class="list-group">
+                    <!-- START list group item-->
+                    @foreach (var comment in Model.TicketComments)
+                    {
+                        @*<a href="#" class="list-group-item">*@<a href="@Url.Action("Details","Tickets",new { id = comment.TicketId })" class="list-group-item">
+
+                            <div class="list-group-item">
+                                <div class="media-box">
+                                    <div class="pull-left">
+                                        <img src="~/app/img/user/default-user.png" alt="Image" class="media-box-object img-circle thumb32">
+                                    </div>
+                                    <div class="media-box-body clearfix">
+                                        <small class="pull-right">@comment.TimeSincePosted</small>
+                                        <strong class="media-box-heading text-primary">
+                                            @{ UserRolesManager URManager = new UserRolesManager();
+                                                if (URManager.UserIsInRole(comment.UserId, "Administrator"))
+                                                {
+                                                    <span class="circle circle-success circle-lg text-left">
+                                                    </span>@comment.User.FirstName @comment.User.LastName
+                                                }
+                                                else if (URManager.UserIsInRole(comment.UserId, "Project Manager"))
+                                                {
+                                                    <span class="circle circle-info circle-lg text-left">
+                                                    </span>@comment.User.FirstName @comment.User.LastName
+
+                                                }
+                                                else if (URManager.UserIsInRole(comment.UserId, "Developer"))
+                                                {
+                                                    <span class="circle circle-warning circle-lg text-left">
+                                                    </span>@comment.User.FirstName @comment.User.LastName
+                                                }
+                                                else if (URManager.UserIsInRole(comment.UserId, "Submitter"))
+                                                {
+                                                    <span class="circle circle-danger circle-lg text-left">
+                                                    </span>@comment.User.FirstName @comment.User.LastName
+                                                }
+                                            }
+                                        </strong>
+                                        <p class="mb-sm">
+                                            <small>@comment.Comment</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            @*</a>*@
+                        </a>
+                                                }
+                    <!-- END list group item-->
+                </div>
+                <!-- END list group-->
+            </div>
+            <!-- START messages and activity-->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="pull-right label label-success">@Model.TicketAttachments.Count</div>
+                    <div class="panel-title">Latest ticket attachments</div>
+                </div>
+                <!-- START list group-->
+                <div data-height="220" data-scrollable="" class="list-group">
+                    @foreach (var attachment in Model.TicketAttachments)
+                    {
+<!-- START list group item-->
+                        <a href="@Url.Action(" Details","Tickets",new { id=attachment.TicketId })" class="list-group-item">
+                            <div class="list-group-item">
+                                <div class="media-box">
+                                    <div class="pull-left">
+                                        <span class="fa-stack">
+                                            @if (attachment.FileType == "upload")
+                                            {
+                                                <em class="fa fa-circle fa-stack-2x text-purple"></em>
+                                                <em class="fa fa-cloud-upload fa-stack-1x fa-inverse text-white"></em>
+                                            }
+                                            @if (attachment.FileType == "document")
+                                            {
+                                                <em class="fa fa-circle fa-stack-2x text-info"></em>
+                                                <em class="fa fa-file-text-o fa-stack-1x fa-inverse text-white"></em>
+                                            }
+                                        </span>
+                                    </div>
+                                    <div class="media-box-body clearfix">
+                                        <small class="text-muted pull-right ml">@attachment.TimeSincePosted</small>
+                                        <div class="media-box-heading">
+                                            <a href="#" class="text-purple m0">@attachment.Description</a>
+                                        </div>
+                                        <p class="m0">
+                                            <small>
+                                                <a href="@attachment.FilePath" target="_blank">@attachment.FileUrl</a>
+                                            </small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                    </a>
+                            }
+                            <!-- END list group item-->
+</div>
+                <!-- END list group-->
+            </div>
+            <!-- END messages and activity-->
+        </aside>
+        <!-- END dashboard sidebar-->
+    </div>
+</div>
+}
+else
+{
+<!-- Page content-->
+<div class="content-wrapper">
+    <div class="content-heading">
+        Your Dashboard
+        <small data-localize="dashboard.WELCOME"></small>
+    </div>
+    <!-- START row-->
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <!-- START panel-->
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <em class="fa fa-warning fa-5x"></em>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="text-lg">@ViewBag.HighPriorityTicketsCount</div>
+                            <p class="m0">High Priority Tickets</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action(" Index", "Projects" )" class="panel-footer bg-gray-dark bt0 clearfix btn-block">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right">
+                        <em class="fa fa-chevron-circle-right"></em>
+                    </span>
+                </a>
+                <!-- END panel-->
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <!-- START panel-->
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <em class="fa fa-ticket fa-5x"></em>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="text-lg">@ViewBag.RecentChangesCount</div>
+                            <p class="m0">Recent Tickets Changes</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action(" Index","Tickets")" class="panel-footer bg-gray-dark bt0 clearfix btn-block">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right">
+                        <em class="fa fa-chevron-circle-right"></em>
+                    </span>
+                </a>
+            </div>
+            <!-- END panel-->
+        </div>
+    </div>
+    <!-- END row-->
+    <!-- END widgets box-->
+    <div class="row">
+        <!-- START dashboard main content-->
+        <div class="col-lg-9">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Unassigned Tickets
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="ddatatable table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>ID#</th>
+                                        <th>Description</th>
+                                        <th>Project</th>
+                                        <th>Status</th>
+                                        <th>Priority</th>
+                                        <th>Submitter</th>
+                                        <th>Assigned</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var ticket in Model.Tickets)
+                                    {
+                                        if (ticket.TicketStatus.Name != "Resolved")
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="badge bg-gray-lighter">@ticket.TicketType.Name</div>
+                                                </td>
+                                                @*<td>BI:54678</td>*@
+                                                <td></td>
+                                                <td>@ticket.Title</td>
+                                                <td>
+                                                    <small>@ticket.Description</small>
+                                                </td>
+                                                <td>@ticket.Project.Name</td>
+                                                @*<td>@Html.DisplayFor(t=>ticket.Created)</td>*@
+                                                <td></td>
+                                                <td>
+                                                    @if (ticket.TicketStatus.Name == "Unassigned")
+                                                    {
+                                                        <div class="inline wd-xxs label label-primary">Unassigned</div>
+                                                    }
+                                                    @if (ticket.TicketStatus.Name == "Assigned")
+                                                    {
+                                                        <div class="inline wd-xxs label label-green">Assigned</div>
+                                                    }
+                                                    @if (ticket.TicketStatus.Name == "Resolved")
+                                                    {
+                                                        <div class="inline wd-xxs label label-danger">Resolved</div>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (ticket.TicketPriority.Name == "High")
+                                                    {
+                                                        <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-danger"></div><span> High</span>
+                                                    }
+                                                    @if (ticket.TicketPriority.Name == "Medium")
+                                                    {
+                                                        <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-warning"></div><span> Medium</span>
+                                                    }
+                                                    @if (ticket.TicketPriority.Name == "Low")
+                                                    {
+                                                        <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-success"></div><span> Low</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <a href="@Url.Action(" Details","Users",new { userId=ticket.SubmitterId })">@ticket.Submitter.FirstName @ticket.Submitter.LastName</a>
+                                                </td>
+                                                <td>
+                                                    @if (ticket.AssignedToId == null)
+                                                    {
+                                                        <span>N/A</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Action(" Details","Users",new { userId=ticket.AssignedToId })">@ticket.AssignedTo.FirstName @ticket.AssignedTo.LastName</a>
+                                                    }
+
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group index-btns">
+                                                        @if (User.IsInRole("Administrator") || (User.IsInRole("Project Manager") && ticket.Project.InChargeOfId == User.Identity.GetUserId()))
+                                                        {
+                                                            <button class="btn btn-xs btn-labeled btn-green" onclick="location.href='@Url.Action(" Assign", new { ticketId=ticket.Id })';">
+                                                                <span class="btn-label pull-left"><i class="fa fa-user-plus"></i></span>
+                                                                Assign
+                                                            </button>
+                                                        }
+                                                        <button class="btn btn-xs btn-labeled btn-warning" onclick="location.href='@Url.Action(" Edit",new { id=ticket.Id })';">
+                                                            <span class="btn-label pull-left"><i class="fa fa-edit"></i></span>
+                                                            Edit
+                                                        </button>
+                                                        <button class="btn btn-xs btn-labeled btn-success" onclick="location.href='@Url.Action(" Details",new { id=ticket.Id })';">
+                                                            <span class="btn-label pull-left"><i class="fa fa-search"></i></span>
+                                                            Details
+                                                        </button>
+                                                        @if (User.IsInRole("Administrator"))
+                                                        {
+                                                            <button class="btn btn-xs btn-labeled btn-danger" onclick="location.href='@Url.Action(" Delete", new { id=ticket.Id })';">
+                                                                <span class="btn-label pull-left"><i class="fa fa-trash"></i></span>
+                                                                Resolved
+                                                            </button>
+                                                        }
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END dashboard main content-->
+        <!-- START dashboard sidebar-->
+        <aside class="col-lg-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="pull-right label label-success">@Model.TicketComments.Count</div>
+                    <div class="panel-title">Recent ticket comments</div>
+                </div>
+                <!-- START list group-->
+                <div data-height="220" data-scrollable="" class="list-group">
+                    <!-- START list group item-->
+                    @foreach (var comment in Model.TicketComments)
+                    {
+                        @*<a href="#" class="list-group-item">*@<a href="#" class="list-group-item">
+
+                            <div class="list-group-item">
+                                <div class="media-box">
+                                    <div class="pull-left">
+                                        <img src="~/app/img/user/default-user.png" alt="Image" class="media-box-object img-circle thumb32">
+                                    </div>
+                                    <div class="media-box-body clearfix">
+                                        <small class="pull-right">@comment.TimeSincePosted</small>
+                                        <strong class="media-box-heading text-primary">
+                                            @{ UserRolesManager URManager = new UserRolesManager();
+                                                if (URManager.UserIsInRole(comment.UserId, "Administrator"))
+                                                {
+                                                    <span class="circle circle-success circle-lg text-left">
+                                                    </span>@comment.User.FirstName @comment.User.LastName
+                                                }
+                                                else if (URManager.UserIsInRole(comment.UserId, "Project Manager"))
+                                                {
+                                                    <span class="circle circle-info circle-lg text-left">
+                                                    </span>@comment.User.FirstName @comment.User.LastName
+
+                                                }
+                                                else if (URManager.UserIsInRole(comment.UserId, "Developer"))
+                                                {
+                                                    <span class="circle circle-warning circle-lg text-left">
+                                                    </span>@comment.User.FirstName @comment.User.LastName
+                                                }
+                                                else if (URManager.UserIsInRole(comment.UserId, "Submitter"))
+                                                {
+                                                    <span class="circle circle-danger circle-lg text-left">
+                                                    </span>@comment.User.FirstName @comment.User.LastName
+                                                }
+                                            }
+                                        </strong>
+                                        <p class="mb-sm">
+                                            <small>@comment.Comment</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            @*</a>*@
+                        </a>
+                                                }
+                    <!-- END list group item-->
+                </div>
+                <!-- END list group-->
+            </div>
+            <!-- START messages and activity-->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="pull-right label label-success">@Model.TicketAttachments.Count</div>
+                    <div class="panel-title">Latest ticket attachments</div>
+                </div>
+                <!-- START list group-->
+                <div data-height="220" data-scrollable="" class="list-group">
+                    @foreach (var attachment in Model.TicketAttachments)
+                    {
+<!-- START list group item-->
+                        <div class="list-group-item">
+                            <div class="media-box">
+                                <div class="pull-left">
+                                    <span class="fa-stack">
+                                        @if (attachment.FileType == "upload")
+                                        {
+                                            <em class="fa fa-circle fa-stack-2x text-purple"></em>
+                                            <em class="fa fa-cloud-upload fa-stack-1x fa-inverse text-white"></em>
+                                        }
+                                        @if (attachment.FileType == "document")
+                                        {
+                                            <em class="fa fa-circle fa-stack-2x text-info"></em>
+                                            <em class="fa fa-file-text-o fa-stack-1x fa-inverse text-white"></em>
+                                        }
+                                    </span>
+                                </div>
+                                <div class="media-box-body clearfix">
+                                    <small class="text-muted pull-right ml">@attachment.TimeSincePosted</small>
+                                    <div class="media-box-heading">
+                                        <a href="#" class="text-purple m0">@attachment.Description</a>
+                                    </div>
+                                    <p class="m0">
+                                        <small>
+                                            <a href="@attachment.FilePath" target="_blank">@attachment.FileUrl</a>
+                                        </small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!-- END list group item-->
+                </div>
+                <!-- END list group-->
+            </div>
+            <!-- END messages and activity-->
+        </aside>
+        <!-- END dashboard sidebar-->
+    </div>
+</div>
+}
+
+@section Scripts{
+
+    <!-- DATATABLES-->
+    <script src="~/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
+    <script src="~/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
+    <script src="~/vendor/datatables-buttons/js/dataTables.buttons.js"></script>
+    <script src="~/vendor/datatables-buttons/js/buttons.bootstrap.js"></script>
+    <script src="~/vendor/datatables-buttons/js/buttons.colVis.js"></script>
+    <script src="~/vendor/datatables-buttons/js/buttons.flash.js"></script>
+    <script src="~/vendor/datatables-buttons/js/buttons.html5.js"></script>
+    <script src="~/vendor/datatables-buttons/js/buttons.print.js"></script>
+    <script src="~/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
+    <script src="~/vendor/datatables-responsive/js/responsive.bootstrap.js"></script>
+   
+    <script>
+        $('.ddatatable').dataTable({
+        'paging':   true,  // Table pagination
+        'ordering': true,  // Column ordering
+        'info':     true,  // Bottom left status text
+        'responsive': true, // https://datatables.net/extensions/responsive/examples/
+        // Text translation options
+        // Note the required keywords between underscores (e.g _MENU_)
+        oLanguage: {
+            sSearch:      'Search all columns:',
+            sLengthMenu:  '_MENU_ records per page',
+            info:         'Showing page _PAGE_ of _PAGES_',
+            zeroRecords:  'Nothing found - sorry',
+            infoEmpty:    'No records available',
+            infoFiltered: '(filtered from _MAX_ total records)'
+        },
+        // Datatable Buttons setup
+        dom: '<"html5buttons"B>lTfgitp',
+        buttons: [
+            {extend: 'copy',  className: 'btn-sm' },
+            {extend: 'csv',   className: 'btn-sm' },
+            {extend: 'excel', className: 'btn-sm', title: 'XLS-File'},
+            {extend: 'pdf',   className: 'btn-sm', title: $('title').text() },
+            {extend: 'print', className: 'btn-sm' }
+        ]
+        });
+
+        
+    </script>
+    @*<script src="~/app/js/demo/demo-datatable.js"></script>*@
+}

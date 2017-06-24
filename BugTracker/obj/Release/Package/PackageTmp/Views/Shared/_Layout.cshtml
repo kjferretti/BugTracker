@@ -1,0 +1,361 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Bootstrap Admin App + jQuery">
+    <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
+    <title>ReSolve</title>
+    <!-- =============== VENDOR STYLES ===============-->
+    <!-- FONT AWESOME-->
+    <link rel="stylesheet" href="~/vendor/fontawesome/css/font-awesome.min.css">
+    <!-- SIMPLE LINE ICONS-->
+    <link rel="stylesheet" href="~/vendor/simple-line-icons/css/simple-line-icons.css">
+    <!-- ANIMATE.CSS-->
+    <link rel="stylesheet" href="~/vendor/animate.css/animate.min.css">
+    <!-- WHIRL (spinners)-->
+    <link rel="stylesheet" href="~/vendor/whirl/dist/whirl.css">
+    <!-- =============== PAGE VENDOR STYLES ===============-->
+    <!-- WEATHER ICONS-->
+    <link rel="stylesheet" href="~/vendor/weather-icons/css/weather-icons.min.css">
+    <!-- =============== BOOTSTRAP STYLES ===============-->
+    <link rel="stylesheet" href="~/app/css/bootstrap.css" id="bscss">
+    <!-- =============== APP STYLES ===============-->
+    <link rel="stylesheet" href="~/app/css/app.css" id="maincss">
+    <!-- Preloader -->
+    <link href="~/vendor/loaders.css/loaders.css" rel="stylesheet" />
+    <!-- Theme -->
+    <link href="~/app/css/theme-c.css" rel="stylesheet" />
+    <!-- My Custom Styling -->
+    <link href="~/app/css/custom.css" rel="stylesheet" />
+    @*<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />*@
+</head>
+
+<body>
+    @*<div class="loading">
+        <div class="ball-spin-fade-loader"><div></div></div>
+    </div>*@
+    <div class="wrapper">
+        <!-- top navbar-->
+        <header class="topnavbar-wrapper">
+            <!-- START Top Navbar-->
+            <nav role="navigation" class="navbar topnavbar">
+                <!-- START navbar header-->
+                <div class="navbar-header">
+                    <a href="@Url.Action("Landing","Home")" class="navbar-brand">
+                        <div class="brand-logo">
+                            @*<img src="~/app/img/logo.png" alt="App Logo" class="img-responsive">*@
+                            @*DeBugger*@
+                            @*Problem Solver*@
+                            <h1 class="logo-font">ReSolve</h1>
+                        </div>
+                        <div class="brand-logo-collapsed">
+                            @*<img src="~/app/img/logo-single.png" alt="App Logo" class="img-responsive">*@
+                            <h1 class="logo-font">RS</h1>
+                        </div>
+                    </a>
+                </div>
+                <!-- END navbar header-->
+                <!-- START Nav wrapper-->
+                <div class="nav-wrapper">
+                    <!-- START Left navbar-->
+                    <ul class="nav navbar-nav">
+                        @*@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right", @style = "display:inline"}))
+                        {
+                            @Html.AntiForgeryToken()
+                            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                        }*@
+                        <li>
+                            <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+                            <a href="#" data-trigger-resize="" data-toggle-state="aside-collapsed" class="hidden-xs">
+                                <em class="fa fa-navicon"></em>
+                            </a>
+                            <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
+                            <a href="#" data-toggle-state="aside-toggled" data-no-persist="true" class="visible-xs sidebar-toggle">
+                                <em class="fa fa-navicon"></em>
+                            </a>
+                        </li>
+                        <!-- START User avatar toggle-->
+                        <li>
+                            <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+                            <a id="user-block-toggle" href="#user-block" data-toggle="collapse">
+                                <em class="icon-user"></em>
+                            </a>
+                        </li>
+                        <!-- END User avatar toggle-->
+                    </ul>
+                    <!-- END Left navbar-->
+                    <!-- START Right Navbar-->
+                    <ul class="nav navbar-nav navbar-right">
+                        <!-- START Alert menu-->
+                        @*<li class="dropdown dropdown-list">
+                            <a href="#" data-toggle="dropdown" style="margin-right:15px">
+                                <em class="icon-bell"></em>
+                                <div class="label label-danger">11</div>
+                            </a>
+                            <!-- START Dropdown menu-->
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <!-- START list group-->
+                                    <div class="list-group">
+                                        <!-- list item-->
+                                        <a href="#" class="list-group-item">
+                                            <div class="media-box">
+                                                <div class="pull-left">
+                                                    <em class="fa fa-twitter fa-2x text-info"></em>
+                                                </div>
+                                                <div class="media-box-body clearfix">
+                                                    <p class="m0">New followers</p>
+                                                    <p class="m0 text-muted">
+                                                        <small>1 new follower</small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <!-- list item-->
+                                        <a href="#" class="list-group-item">
+                                            <div class="media-box">
+                                                <div class="pull-left">
+                                                    <em class="fa fa-envelope fa-2x text-warning"></em>
+                                                </div>
+                                                <div class="media-box-body clearfix">
+                                                    <p class="m0">New e-mails</p>
+                                                    <p class="m0 text-muted">
+                                                        <small>You have 10 new emails</small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <!-- list item-->
+                                        <a href="#" class="list-group-item">
+                                            <div class="media-box">
+                                                <div class="pull-left">
+                                                    <em class="fa fa-tasks fa-2x text-success"></em>
+                                                </div>
+                                                <div class="media-box-body clearfix">
+                                                    <p class="m0">Pending Tasks</p>
+                                                    <p class="m0 text-muted">
+                                                        <small>11 pending task</small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <!-- last list item-->
+                                        <a href="#" class="list-group-item">
+                                            <small>More notifications</small>
+                                            <span class="label label-danger pull-right">14</span>
+                                        </a>
+                                    </div>
+                                    <!-- END list group-->
+                                </li>
+                            </ul>
+                            <!-- END Dropdown menu-->
+                        </li>*@
+                        <!-- END Alert menu-->
+                        <!-- START Offsidebar button-->
+                        
+                        <!-- END Offsidebar menu-->
+                    </ul>
+                    <!-- END Right Navbar-->
+                </div>
+                <!-- END Nav wrapper-->
+                <!-- START Search form-->
+                <form role="search" action="search.html" class="navbar-form">
+                    <div class="form-group has-feedback">
+                        <input type="text" placeholder="Type and hit enter ..." class="form-control">
+                        <div data-search-dismiss="" class="fa fa-times form-control-feedback"></div>
+                    </div>
+                    <button type="submit" class="hidden btn btn-default">Submit</button>
+                </form>
+                <!-- END Search form-->
+            </nav>
+            <!-- END Top Navbar-->
+        </header>
+        <!-- sidebar-->
+        <aside class="aside">
+            <!-- START Sidebar (left)-->
+            <div class="aside-inner">
+                <nav data-sidebar-anyclick-close="" class="sidebar">
+                    <!-- START sidebar nav-->
+                    <ul class="nav">
+                        <!-- START user info-->
+                        @{Html.RenderAction("UserPartial", "Users");}
+                        <li class=" ">
+                            <a href="@Url.Action("Index", "Home")" title="Dashboard">
+                                <em class="icon-speedometer"></em>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        
+                        <!-- END user info-->
+                        <!-- Iterates over all sidebar items-->
+                        <li class="nav-heading ">
+                            <span data-localize="sidebar.heading.HEADER">Main Navigation</span>
+                        </li>
+                        @*<li class=" ">
+                            <a href="@Url.Action("Index", "Home")" title="Dashboard">
+                                <em class="icon-speedometer"></em>
+                                <span data-localize="sidebar.heading.DASHBOARD">Dashboard</span>
+                            </a>
+                        </li>*@
+                        @if (User.IsInRole("Administrator"))
+                        {
+                        <li class=" ">
+                            <a href="@Url.Action("Index","Users")" title="Users">
+                                @{Html.RenderAction("Users", "Home");}
+                                <em class="icon-people"></em>
+                                <span data-localize="sidebar.nav.USERS">Manage Users</span>
+                            </a>
+                        </li>
+                        }
+                        @if (!User.IsInRole("Administrator"))
+                        {
+                        <li class=" ">
+                            <a href="@Url.Action("Index", "Projects")" title="Projects">
+                                @{Html.RenderAction("Projects", "Home");}
+                                <em class="icon-chemistry"></em>
+                                <span data-localize="sidebar.nav.PROJECTS">Projects</span>
+                            </a>
+                        </li>
+                        }
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            Html.RenderAction("Projects", "Home");
+                        }
+                        @if (!User.IsInRole("Administrator"))
+                        {
+                            <li class=" ">
+                                <a href="@Url.Action("Index","Tickets")" title="Tickets">
+                                    @{Html.RenderAction("Tickets", "Home");}
+                                    <em class="fa fa-ticket"></em>
+                                    <span data-localize="sidebar.nav.TICKETS">Tickets</span>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            Html.RenderAction("Tickets", "Home");
+                        }
+
+                        @*<li class=" ">
+                            <a href="@Url.Action("Index","Roles")" title="Roles">
+                                <div class="pull-right label label-success">30</div>
+                                <em class="icon-grid"></em>
+                                <span data-localize="sidebar.nav.ROLES">Roles</span>
+                            </a>
+                        </li>*@
+                        <!-- ======= Guest login implementation for testing and quick login switching ======= -->
+                        <!--user inline forms with hidden login info-->
+                        <!--make custom logout method that logs user out (unless not logged in (which shouldnt happen)) and then back in in the same method-->
+                        <li class="nav-heading ">
+                            <span data-localize="sidebar.heading.LOGINS">Guest Logins</span>
+                        </li>
+                        <li class=" ">
+                            @*<a href="@Url.Action("GuestAdminLogin", "Account",new { returnUrl = Request.Url.AbsoluteUri })" title="Administrator">*@
+                            <a href="@Url.Action("GuestAdminLogin", "Account")" title="Administrator">
+                                <em class="icon-energy"></em>
+                                <span data-localize="sidebar.heading.ADMINISTRATOR">Administrator</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            @*<a href="@Url.Action("GuestPMLogin", "Account",new { returnUrl = Request.Url.AbsoluteUri })" title="Project Manager">*@
+                            <a href="@Url.Action("GuestPMLogin", "Account")" title="Project Manager">
+                                <em class="icon-anchor"></em>
+                                <span data-localize="sidebar.heading.PROJECTMANAGER">Project Manager</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            @*<a href="@Url.Action("GuestDeveloperLogin", "Account",new { returnUrl = Request.Url.AbsoluteUri })" title="Developer">*@
+                            <a href="@Url.Action("GuestDeveloperLogin", "Account")" title="Developer">
+                                <em class="icon-wrench"></em>
+                                <span data-localize="sidebar.heading.DEVELOPER">Developer</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            @*<a href="@Url.Action("GuestSubmitterLogin", "Account",new { returnUrl = Request.Url.AbsoluteUri })" title="Submitter">*@
+                            <a href="@Url.Action("GuestSubmitterLogin", "Account")" title="Submitter">
+                                <em class="icon-envelope-letter"></em>
+                                <span data-localize="sidebar.heading.SUBMITTER">Submitter</span>
+                            </a>
+                        </li>
+                        @*<li class=" ">
+                            <a href="@Url.Action("GuestLogin", "Account",new { returnUrl = Request.Url.AbsoluteUri })" title="Guest">
+                                <em class="icon-user"></em>
+                                <span data-localize="sidebar.heading.GUEST">Guest</span>
+                            </a>
+                        </li>*@
+                    </ul>
+                    <!-- END sidebar nav-->
+                </nav>
+            </div>
+            <!-- END Sidebar (left)-->
+        </aside>
+        <!-- offsidebar-->
+        
+            <!-- END Off Sidebar (right)-->
+        <!-- Main section-->
+        <section>
+
+            @RenderBody()
+
+        </section>
+</div>
+    <!-- =============== VENDOR SCRIPTS ===============-->
+    <!-- MODERNIZR-->
+    <script src="~/vendor/modernizr/modernizr.custom.js"></script>
+    <!-- MATCHMEDIA POLYFILL-->
+    <script src="~/vendor/matchMedia/matchMedia.js"></script>
+    <!-- JQUERY-->
+    <script src="~/vendor/jquery/dist/jquery.js"></script>
+    <!-- BOOTSTRAP-->
+    <script src="~/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- STORAGE API-->
+    <script src="~/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
+    <!-- JQUERY EASING-->
+    <script src="~/vendor/jquery.easing/js/jquery.easing.js"></script>
+    <!-- ANIMO-->
+    <script src="~/vendor/animo.js/animo.js"></script>
+    <!-- SLIMSCROLL-->
+    <script src="~/vendor/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- SCREENFULL-->
+    <script src="~/vendor/screenfull/dist/screenfull.js"></script>
+    <!-- LOCALIZE-->
+    <script src="~/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
+    <!-- RTL demo-->
+    <script src="~/app/js/demo/demo-rtl.js"></script>
+    <!-- =============== PAGE VENDOR SCRIPTS ===============-->
+    <!-- SPARKLINE-->
+    <script src="~/vendor/sparkline/index.js"></script>
+    <!-- FLOT CHART-->
+    <script src="~/vendor/Flot/jquery.flot.js"></script>
+    <script src="~/vendor/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+    <script src="~/vendor/Flot/jquery.flot.resize.js"></script>
+    <script src="~/vendor/Flot/jquery.flot.pie.js"></script>
+    <script src="~/vendor/Flot/jquery.flot.time.js"></script>
+    <script src="~/vendor/Flot/jquery.flot.categories.js"></script>
+    <script src="~/vendor/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <!-- EASY PIE CHART-->
+    <script src="~/vendor/jquery.easy-pie-chart/dist/jquery.easypiechart.js"></script>
+    <!-- MOMENT JS-->
+    <script src="~/vendor/moment/min/moment-with-locales.min.js"></script>
+    <!-- SKYCONS-->
+    <script src="~/vendor/skycons/skycons.js"></script>
+    <!-- DEMO-->
+    <script src="~/app/js/demo/demo-flot.js"></script>
+    <!-- VECTOR MAP-->
+    <script src="~/vendor/ika.jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="~/vendor/ika.jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="~/vendor/ika.jvectormap/jquery-jvectormap-us-mill-en.js"></script>
+    <script src="~/app/js/demo/demo-vector-map.js"></script>
+    <!-- =============== APP SCRIPTS ===============-->
+    <script src="~/app/js/app.js"></script>
+    @*<script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script>
+        $('#ticketstable').DataTable();
+    </script>*@
+
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

@@ -1,0 +1,252 @@
+﻿@model IEnumerable<BugTracker.Models.CodeFirst.Ticket>
+
+<!-- DATATABLES-->
+<link rel="stylesheet" href="~/vendor/datatables-colvis/css/dataTables.colVis.css">
+<link rel="stylesheet" href="~/vendor/datatables/media/css/dataTables.bootstrap.css">
+<link rel="stylesheet" href="~/vendor/dataTables.fontAwesome/index.css">
+
+<div class="content-wrapper">
+    <h3>Resolved Tickets</h3>
+    <div class="row">
+        @*<div class="col-md-4">
+                <!-- Aside panel-->
+                <div class="panel b">
+                    <div class="panel-body bb">
+                        <p>Overvall progress</p>
+                        <div class="table-grid table-grid-align-middle mv">
+                            <div class="col">
+                                <div class="progress progress-xs m0">
+                                    <div style="width:48%" class="progress-bar progress-bar-info">48%</div>
+                                </div>
+                            </div>
+                            <div class="hidden-xs col wd-xxs text-right">
+                                <div class="text-bold text-muted">48%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <p>Metrics</p>
+                        <div class="row text-center">
+                            <div class="col-xs-3 col-md-6 col-lg-3">
+                                <div class="inline mv">
+                                    <div data-sparkline="" values="20,80" data-type="pie" data-height="50" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#23b7e5&quot;]" class="sparkline"></div>
+                                </div>
+                                <p class="mt-lg">Issues</p>
+                            </div>
+                            <div class="col-xs-3 col-md-6 col-lg-3">
+                                <div class="inline mv">
+                                    <div data-sparkline="" values="60,40" data-type="pie" data-height="50" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#27c24c&quot;]" class="sparkline"></div>
+                                </div>
+                                <p class="mt-lg">Bugs</p>
+                            </div>
+                            <div class="col-xs-3 col-md-6 col-lg-3">
+                                <div class="inline mv">
+                                    <div data-sparkline="" values="20,80" data-type="pie" data-height="50" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#ff902b&quot;]" class="sparkline"></div>
+                                </div>
+                                <p class="mt-lg">Hours</p>
+                            </div>
+                            <div class="col-xs-3 col-md-6 col-lg-3">
+                                <div class="inline mv">
+                                    <div data-sparkline="" values="30,70" data-type="pie" data-height="50" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#f05050&quot;]" class="sparkline"></div>
+                                </div>
+                                <p class="mt-lg">Assigned</p>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table bb">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Assigned Hours</strong>
+                                </td>
+                                <td>68 hs</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Time Consumed</strong>
+                                </td>
+                                <td>32 hs</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Issues</strong>
+                                </td>
+                                <td>19</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Bugs</strong>
+                                </td>
+                                <td>16</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Health</strong>
+                                </td>
+                                <td>
+                                    <em class="fa fa-smile-o fa-lg text-warning"></em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Commits</strong>
+                                </td>
+                                <td>140</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Recently closed</strong>
+                                </td>
+                                <td>
+                                    <div data-height="120" data-scrollable="" class="list-group">
+                                        <table class="table table-bordered bg-transparent">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <a href="" class="text-muted">BI:54678</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="" class="text-muted">BI:55778</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="" class="text-muted">BI:56878</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="" class="text-muted">BI:57978</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="" class="text-muted">BI:1107</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Last closed on</strong>
+                                </td>
+                                <td>12/01/2016</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- end Aside panel-->
+            </div>*@
+        <div class="col-md-12">
+            <div class="mb-lg clearfix">
+            </div>
+            <div class="panel b panel-purple">
+                <div class="panel-heading">All Resolved Tickets</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="datatable1" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>ID#</th>
+                                    @*<th>Title</th>*@
+                                    <th>Description</th>
+                                    <th>Project</th>
+                                    @*<th>Created</th>*@
+                                    <th>Status</th>
+                                    <th>Priority</th>
+                                    <th>Submitter</th>
+                                    <th>Assigned</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var ticket in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="badge bg-gray-lighter">@ticket.TicketType.Name</div>
+                                        </td>
+                                        @*<td>BI:54678</td>*@
+                                        <td>@ticket.Title</td>                                      
+                                        <td class="text-nowrap">
+                                            <small>@ticket.Description</small>
+                                        </td>
+                                        <td>@ticket.Project.Name</td>
+                                        @*<td>@Html.DisplayFor(t => ticket.Created)</td>*@
+                                        <td>
+                                            @if (ticket.TicketStatus.Name == "Unassigned")
+                                            {
+                                                <div class="inline wd-xxs label label-warning">Unassigned</div>
+                                            }
+                                            @if (ticket.TicketStatus.Name == "Assigned")
+                                            {
+                                                <div class="inline wd-xxs label label-green">Assigned</div>
+                                            }
+                                            @if (ticket.TicketStatus.Name == "Resolved")
+                                            {
+                                                <div class="inline wd-xxs label label-danger">Resolved</div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (ticket.TicketPriority.Name == "High")
+                                            {
+                                                <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-danger"></div><span> High</span>
+                                            }
+                                            @if (ticket.TicketPriority.Name == "Low")
+                                            {
+                                                <div data-toggle="tooltip" data-title="normal" class="circle circle-lg circle-green"></div><span> Low</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @*<a href="@Url.Action("Details","Users",new { userId = ticket.SubmitterId })">*@@ticket.Submitter.FirstName @ticket.Submitter.LastName@*</a>*@
+                                        </td>
+                                        <td>
+                                            @if (ticket.AssignedToId == null)
+                                            {
+                                                <span>N/A</span>
+                                            }
+                                            else
+                                            {
+                                                @*<a href="@Url.Action("Details","Users",new { userId = ticket.AssignedToId })">*@@ticket.AssignedTo.FirstName<span> </span>@ticket.AssignedTo.LastName@*</a>*@
+                                            }
+
+                                        </td>
+       
+                                        <td>
+                                            <div class="btn-group index-btns">
+                                                <button class="btn btn-xs btn-labeled btn-success" onclick="location.href='@Url.Action("Details", new { id = ticket.Id })';">
+                                                    <span class="btn-label pull-left"><i class="fa fa-search"></i></span>
+                                                    Details
+                                                </button>
+                                                <button class="btn btn-xs btn-labeled btn-green" onclick="location.href='@Url.Action("Unresolve", new { id = ticket.Id })';">
+                                                    <span class="btn-label"><i class="fa fa-magic"></i></span>
+                                                    Reactivate
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <!-- DATATABLES-->
+    <script src="~/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
+    <script src="~/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
+    <script src="~/app/js/demo/demo-datatable.js"></script>
+}

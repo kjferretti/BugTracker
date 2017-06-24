@@ -1,0 +1,37 @@
+﻿@if (User.IsInRole("Administrator"))
+{
+    <li class=" ">
+        <a href="#adminprojects" title="Projects" data-toggle="collapse">
+            <div class="pull-right label label-success">
+                @ViewBag.NonArchivedProjects
+            </div>
+            <em class="icon-chemistry"></em>
+            <span data-localize="sidebar.nav.ADMINPROJECTS">Projects</span>
+        </a>
+        <ul id="adminprojects" class="nav sidebar-subnav collapse">
+            <li class="sidebar-subnav-header">Projects</li>
+            <li class=" ">
+                <a href="@Url.Action("Index", "Projects")" title="Main">
+                    <div class="pull-right label label-success">
+                        @ViewBag.NonArchivedProjects
+                    </div>
+                    <span>Main</span>
+                </a>
+            </li>
+            <li class=" ">
+                <a href="@Url.Action("Archived", "Projects")" title="Archived">
+                    <div class="pull-right label label-danger">
+                        @ViewBag.ArchivedProjects
+                    </div>
+                    <span>Archived</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+}
+else
+{
+    <div class="pull-right label label-success">
+        @ViewBag.Projects
+    </div>
+}

@@ -1,0 +1,59 @@
+﻿@model BugTracker.Models.TicketAssignViewModel
+
+<div class="content-wrapper">
+    <h3>Assign this ticket to a user</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="panel panel-purple">
+                    <div class="panel-heading">Choose a user</div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm("Assign", "Tickets"))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.ticketId)
+
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2" for="UserId">User</label>
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Assign" class="btn btn-info" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @if (ViewBag.TicketIsAssigned)
+                        {
+                            using (Html.BeginForm("Unassign", "Tickets"))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(m => m.ticketId)
+
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-9">
+                                            <input type="submit" value="Remove ticket assignment" class="btn btn-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-success btn-labeled btn-xs col-lg-offset-9" onclick="location.href='@Url.Action("Index")';">
+                            <span class="btn-label"><i class="icon-list"></i></span>
+                            Back to List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

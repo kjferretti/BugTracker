@@ -1,0 +1,59 @@
+﻿@model BugTracker.Models.CodeFirst.Project
+
+<div class="content-wrapper">
+    <h3>Edit this project</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="panel panel-purple">
+                    <div class="panel-heading">Enter project details</div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.Id)
+
+                                if (User.IsInRole("Project Manager"))
+                                {
+                                    @Html.HiddenFor(model => model.InChargeOfId)
+                                }
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    
+                                </div>
+
+                                if (User.IsInRole("Administrator"))
+                                {
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.InChargeOfId, "Project Manager", htmlAttributes: new { @class = "control-label col-md-2" })
+                                       
+                                            @Html.DropDownList("InChargeOfId", null, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.InChargeOfId, "", new { @class = "text-danger" })
+                                        
+                                    </div>
+                                }
+
+
+                                        <input type="submit" value="Save" class="btn btn-info" />
+
+                        }
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-success btn-labeled btn-xs col-lg-offset-9" onclick="location.href='@Url.Action("Index")';">
+                            <span class="btn-label"><i class="icon-list"></i></span>
+                            Back to List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

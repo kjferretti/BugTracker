@@ -1,0 +1,132 @@
+﻿@model BugTracker.Models.CodeFirst.Project
+@using Microsoft.AspNet.Identity
+
+<div class="content-wrapper">
+    <h3>Project Details</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="panel panel-purple">
+                    <div class="panel-heading">@Model.Name</div>
+                    <div class="panel-body">
+                        <dl class="">
+                            @*<dt>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Name)
+                            </dd>*@
+
+                            <dt>
+                                Project Manager:
+                            </dt>
+
+                            <dd>
+                                @Model.InChargeOfName
+                            </dd>
+
+                            <br />
+
+                            <dt>
+                                Assigned Users:
+                            </dt>
+
+                            @foreach (var user in Model.Users)
+                            {
+                                <dd>
+                                    @user.FirstName @user.LastName
+                                    @if ((User.IsInRole("Administrator") || User.Identity.GetUserId() == Model.InChargeOfId) && !(Model.Archived ?? false))
+                {
+                                        <a href="@Url.Action("Unassign", new { projectId = Model.Id, userId = user.Id })">Unnassign</a>
+                                    }
+                                </dd>
+                                @*<br />*@
+                            }
+                            @*<dt>
+                                Tickets you have access to:
+                            </dt>
+                            @foreach (var ticket in Model.Tickets)
+                            {
+                            <dd>
+                                @ticket.Title
+                            </dd>
+                            }*@
+                        </dl>
+                    </div>
+                    <div class="panel-footer">
+                        @if (!(Model.Archived ?? false))
+                        {
+                            @*<p>*@
+                                if (User.IsInRole("Administrator") || User.Identity.GetUserId() == Model.InChargeOfId)
+                                {
+                                    <button class="btn btn-xs btn-labeled btn-warning" onclick="location.href='@Url.Action("Edit", new { id = Model.Id })';">
+                                        <span class="btn-label pull-left"><i class="fa fa-edit"></i></span>
+                                        Edit
+                                    </button>
+                                }
+                                if (User.IsInRole("Administrator") || User.Identity.GetUserId() == Model.InChargeOfId)
+                                {
+                                    <button class="btn btn-xs btn-labeled btn-green" onclick="location.href='@Url.Action("Assign", new { projectId = Model.Id })';">
+                                        <span class="btn-label pull-left"><i class="fa fa-user-plus"></i></span>
+                                        Assign
+                                    </button>
+                                }
+                                <button class="btn btn-success btn-labeled btn-xs" onclick="location.href='@Url.Action("Index")';">
+                                    <span class="btn-label"><i class="icon-list"></i></span>
+                                    Back to List
+                                </button>
+                                if (User.IsInRole("Administrator"))
+                                {
+                                    <button class="btn btn-xs btn-labeled btn-danger" onclick="location.href='@Url.Action("Archive", new { id = Model.Id })';">
+                                        <span class="btn-label pull-left"><i class="fa fa-trash"></i></span>
+                                        Archive
+                                    </button>
+                                }
+                            @*</p>*@
+                        }
+                        else
+                        {
+                            @*<p>*@
+                            <button class="btn btn-success btn-labeled btn-xs" onclick="location.href='@Url.Action("Archived")';">
+                                <span class="btn-label"><i class="icon-list"></i></span>
+                                Back to List
+                            </button>
+                            <button class="btn btn-green btn-labeled btn-xs" onclick="location.href='@Url.Action("Unarchive", new { id=Model.Id })';">
+                                <span class="btn-label"><i class="fa fa-magic"></i></span>
+                                Reactivate
+                            </button>
+                            @*</p>*@
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@if (!(Model.Archived ?? false))
+{
+    <p>
+        @if (User.IsInRole("Administrator") || User.Identity.GetUserId() == Model.InChargeOfId)
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })<span> | </span>
+        }
+        @if (User.IsInRole("Administrator") || User.Identity.GetUserId() == Model.InChargeOfId)
+        {
+            @Html.ActionLink("Assign users to this project", "Assign", new { projectId = Model.Id })<span> | </span>
+        }
+        @Html.ActionLink("Back to List", "Index")
+        @if (User.IsInRole("Administrator"))
+        {
+            <span> | </span>@Html.ActionLink("Archive", "Archive", new { id = Model.Id })
+        }
+    </p>
+}
+else
+{
+    <p>
+        @Html.ActionLink("Back to List", "Archived") |
+        @Html.ActionLink("Reactivate", "Unarchive", new { id = Model.Id })
+    </p>
+}*@

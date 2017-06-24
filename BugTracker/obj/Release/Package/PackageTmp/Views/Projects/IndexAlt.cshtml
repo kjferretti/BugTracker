@@ -1,0 +1,215 @@
+﻿@model BugTracker.Models.DisplayProjectsViewModel
+
+<!-- Page content-->
+<div class="content-wrapper">
+    <div class="pull-right">
+        <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Create")';">Create project</button>
+    </div>
+    <h3>Projects</h3>
+
+    @if (Model.AssignedProjects.Any())
+    {
+    <div class="row">
+        <h2>Assigned Projects</h2>
+    </div>
+    <div class="row">
+        @foreach (var project in Model.AssignedProjects)
+        {
+            <div class="col-lg-4 col-md-6">
+                <div class="panel b">
+                    <div class="panel-heading">
+                        @*<div class="pull-right">
+                            <div class="label label-green">assigned</div>
+                        </div>*@
+                        <h4 class="m0">@project.Name</h4>
+                        @*<small class="text-muted">Sed amet lectus id.</small>*@
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-grid table-grid-align-middle">
+                            <div class="col">
+                                <div class="visible-xs visible-sm text-bold text-muted text-right">22%</div>
+                                <div data-toggle="tooltip" data-title="Health">
+                                    <div class="progress progress-xs m0">
+                                        <div style="width:22%" class="progress-bar progress-bar-warning">22%</div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="col wd-xxs text-right hidden-xs hidden-sm">
+                                <div class="text-bold text-muted">22%</div>
+                            </div>*@
+                        </div>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Start date</strong>
+                                </td>
+                                <td>01/01/2016</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Members</strong>
+                                </td>
+                                <td>
+                                    <a href="#" class="inline">
+                                        <img src="~/app/img/user/02.jpg" alt="project member" class="img-circle thumb24">
+                                    </a>
+                                    <a href="#" class="inline">
+                                        <img src="~/app/img/user/04.jpg" alt="project member" class="img-circle thumb24">
+                                    </a>
+                                    <a href="#" class="inline">
+                                        <img src="~/app/img/user/05.jpg" alt="project member" class="img-circle thumb24">
+                                    </a>
+                                    <a href="#" class="inline">
+                                        <img src="~/app/img/user/06.jpg" alt="project member" class="img-circle thumb24">
+                                    </a>
+                                    <a href="#" class="inline">
+                                        <strong>+5</strong>
+                                    </a>
+                                </td>
+                                @if (User.IsInRole("Administrator") || User.IsInRole("Project Manager"))
+                                {
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-default" onclick="location.href='@Url.Action("Assign",new { projectId = project.Id })';">
+                                            <em class="fa fa-user-plus"></em>
+                                        </button>
+                                    </td>
+                                }
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Leader</strong>
+                                </td>
+                                <td>
+                                    <a href="" data-toggle="tooltip" data-title="Team leader">
+                                        <img src="~/app/img/user/03.jpg" alt="project member" class="img-circle thumb24">
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Metrics</strong>
+                                </td>
+                                <td>
+                                    <div data-sparkline="" values="20,80" data-type="pie" data-height="24" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#23b7e5&quot;]" class="sparkline inline mr"></div>
+                                    <div data-sparkline="" values="60,40" data-type="pie" data-height="24" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#27c24c&quot;]" class="sparkline inline mr"></div>
+                                    <div data-sparkline="" values="90,10" data-type="pie" data-height="24" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#ff902b&quot;]" class="sparkline inline"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="panel-footer text-center">
+                        <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("Details", new { id = project.Id })';">Manage project</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    }
+    @*<div class="clearfix"></div>*@
+    @if (Model.AllProjects.Any())
+    {
+
+    
+    <div class="row">
+        @*<div class="col-lg-4 col-md-6"></div>*@
+        <h2>All Projects</h2>
+    </div>
+    <div class="row">
+        @foreach (var project in Model.AllProjects)
+        {
+            <div class="col-lg-4 col-md-6">
+                <div class="panel b">
+                    <div class="panel-heading">
+                        <div class="pull-right">
+                            <div class="label label-info">started</div>
+                        </div>
+                        <h4 class="m0">@project.Name</h4>
+                        <small class="text-muted">Sed amet lectus id.</small>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-grid table-grid-align-middle">
+                            <div class="col">
+                                <div class="visible-xs visible-sm text-bold text-muted text-right">22%</div>
+                                <div data-toggle="tooltip" data-title="Health">
+                                    <div class="progress progress-xs m0">
+                                        <div style="width:22%" class="progress-bar progress-bar-warning">22%</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col wd-xxs text-right hidden-xs hidden-sm">
+                                <div class="text-bold text-muted">22%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Start date</strong>
+                                </td>
+                                <td>01/01/2016</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Members</strong>
+                                </td>
+                                <td>
+                                    <a href="#" class="inline">
+                                        <img src="~/app/img/user/02.jpg" alt="project member" class="img-circle thumb24">
+                                    </a>
+                                    <a href="#" class="inline">
+                                        <img src="~/app/img/user/04.jpg" alt="project member" class="img-circle thumb24">
+                                    </a>
+                                    <a href="#" class="inline">
+                                        <img src="~/app/img/user/05.jpg" alt="project member" class="img-circle thumb24">
+                                    </a>
+                                    <a href="#" class="inline">
+                                        <img src="~/app/img/user/06.jpg" alt="project member" class="img-circle thumb24">
+                                    </a>
+                                    <a href="#" class="inline">
+                                        <strong>+5</strong>
+                                    </a>
+                                </td>
+                                @if(User.IsInRole("Administrator") || User.IsInRole("Project Manager"))
+                                {
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-default" onclick="location.href='@Url.Action("Assign",new { projectId = project.Id })';">
+                                        <em class="fa fa-user-plus"></em>
+                                    </button>
+                                </td>
+                                }
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Leader</strong>
+                                </td>
+                                <td>
+                                    <a href="" data-toggle="tooltip" data-title="Team leader">
+                                        <img src="~/app/img/user/03.jpg" alt="project member" class="img-circle thumb24">
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Metrics</strong>
+                                </td>
+                                <td>
+                                    <div data-sparkline="" values="20,80" data-type="pie" data-height="24" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#23b7e5&quot;]" class="sparkline inline mr"></div>
+                                    <div data-sparkline="" values="60,40" data-type="pie" data-height="24" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#27c24c&quot;]" class="sparkline inline mr"></div>
+                                    <div data-sparkline="" values="90,10" data-type="pie" data-height="24" data-slice-colors="[&quot;#edf1f2&quot;, &quot;#ff902b&quot;]" class="sparkline inline"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="panel-footer text-center">
+                        <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("Details",new { id = project.Id })';">Manage project</button>
+                    </div>
+                </div>
+            </div>
+        }        
+    </div>
+    }
+</div>
+

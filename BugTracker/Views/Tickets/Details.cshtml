@@ -1,0 +1,414 @@
+﻿@model BugTracker.Models.TicketHistoryViewModel
+@using BugTracker.Helper_Classes
+@using Microsoft.AspNet.Identity @*;*@
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div class="content-wrapper">
+    <div class="content-heading">
+        Ticket @Model.Ticket.Title
+        <small data-localize="dashboard.WELCOME"></small>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-purple">
+                <div class="panel-heading">
+                    Ticket Details for @Model.Ticket.Title
+                </div>
+                <div class="panel-body">
+                    <dl class="">
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Ticket.Description):
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Ticket.Description)
+                        </dd>
+                        <br />
+                        <dt>
+                            Project:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Ticket.Project.Name)
+                        </dd>
+                        <br />
+                        <dt>
+                            Assigned To:
+                        </dt>
+
+                        @if (Model.Ticket.AssignedToId == null)
+                        {
+                            <dd>Currently Unassigned</dd>
+                        }
+                        else
+                        {
+                            <dd>@Html.DisplayFor(model => model.Ticket.AssignedTo.FirstName) @Html.DisplayFor(model => model.Ticket.AssignedTo.LastName)</dd>
+                        }
+                        <br />
+                        <dt>
+                            Submitter:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Ticket.Submitter.FirstName) @Html.DisplayFor(model => model.Ticket.Submitter.LastName)
+                        </dd>
+                        <br />
+                        <dt>
+                            Priority:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Ticket.TicketPriority.Name)
+                        </dd>
+                        <br />
+                        <dt>
+                            Status:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Ticket.TicketStatus.Name)
+                        </dd>
+                        <br />
+                        <dt>
+                            Type:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Ticket.TicketType.Name)
+                        </dd>
+                        <br />
+                        <dt>
+                            Created Date:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Ticket.Created)
+                        </dd>
+                        <br />
+                        <dt>
+                            Updated Date:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Ticket.Updated)
+                        </dd>
+                    </dl>
+                    </div>
+                <div class="panel-footer">
+                    
+                    @if (Model.Ticket.TicketStatus.Name != "Resolved")
+                    {
+                        
+                            <button class="btn btn-xs btn-labeled btn-warning" onclick="location.href='@Url.Action("Edit", new { id = Model.Ticket.Id })';">
+                                <span class="btn-label pull-left"><i class="fa fa-edit"></i></span>
+                                Edit
+                            </button>
+                            <button class="btn btn-success btn-labeled btn-xs" onclick="location.href='@Url.Action("Index")';">
+                                <span class="btn-label"><i class="icon-list"></i></span>
+                                Back to List
+                            </button>
+                            if (User.IsInRole("Administrator"))
+                            {
+                                <button class="btn btn-xs btn-labeled btn-danger" onclick="location.href='@Url.Action("Delete", new { id = Model.Ticket.Id })';">
+                                    <span class="btn-label pull-left"><i class="fa fa-trash"></i></span>
+                                    Resolved
+                                </button>
+                        }
+                        if (User.IsInRole("Administrator") || (User.IsInRole("Project Manager") && Model.Ticket.Project.InChargeOfId == User.Identity.GetUserId()))
+                        {
+                            <button class="btn btn-xs btn-labeled btn-green" onclick="location.href='@Url.Action("Assign", new { ticketId = Model.Ticket.Id })';">
+                                <span class="btn-label pull-left"><i class="fa fa-user-plus"></i></span>
+                                Assign
+                            </button>
+                        }
+
+                    }
+                    else
+                    {
+                        <button class="btn btn-success btn-labeled btn-xs" onclick="location.href='@Url.Action("Resolved")';">
+                            <span class="btn-label"><i class="icon-list"></i></span>
+                            Back to List
+                        </button>
+                        <button class="btn btn-green btn-labeled btn-xs" onclick="location.href='@Url.Action("Unresolve", new { id=Model.Ticket.Id })';">
+                            <span class="btn-label"><i class="fa fa-magic"></i></span>
+                            Reactivate
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="panel panel-purple">
+                        <div class="panel-heading">
+                            <div class="pull-right label label-warning">@ViewBag.NumberOfChanges</div>
+                            <div class="panel-title">Change History</div>
+                        </div>
+                        <!-- START list group-->
+                        <div data-height="282" data-scrollable="" class="list-group">
+                            <!-- START list group item-->
+                            <a href="#" class="list-group-item">
+                                <div class="media-box">
+                                    <div class="media-box-body clearfix">
+                                        <small class="pull-right">@Model.Ticket.Created.ToString("MM/dd/yyyy")</small>
+                                        <strong class="media-box-heading text-primary">
+                                            <span class="circle circle-success circle-lg text-left"></span>Ticket Created by @Model.CreatedBy.FirstName @Model.CreatedBy.LastName
+                                        </strong>
+                                        <p class="mb-sm">
+                                            <small>ID#: @Model.CreatedId, Description: @Model.CreatedDescription, Priority: @Model.CreatedPriority, Status: @Model.CreatedStatus</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                            <!-- END list group item-->
+                            @{ var i = -3; }
+                            @foreach (var historyItem in Model.Ticket.TicketHistoryEvents)
+                            {
+                                if (i > 0 && historyItem.NewValue != "Resolved")
+                                {
+                                <!-- START list group item-->
+                                    <a href="#" class="list-group-item">
+                                        <div class="media-box">
+                                            <div class="media-box-body clearfix">
+                                                <small class="pull-right">@historyItem.ChangedDate.ToString("MM/dd/yyyy")</small>
+                                                <strong class="media-box-heading text-primary">
+                                                    <span class="circle circle-warning circle-lg text-left"></span>Change #@i
+                                                </strong>
+                                                <p class="mb-sm">
+                                                    <small>@historyItem.User.FirstName @historyItem.User.LastName changed @historyItem.Property from "@historyItem.OldValue" to "@historyItem.NewValue"</small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                <!-- END list group item-->
+                                }
+                                i++;
+                                if (historyItem.NewValue == "Resolved")
+                                {
+                                    <a href="#" class="list-group-item">
+                                        <div class="media-box">
+                                            <div class="media-box-body clearfix">
+                                                <small class="pull-right">@historyItem.ChangedDate.ToString("MM/dd/yyyy")</small>
+                                                <strong class="media-box-heading text-primary">
+                                                    <span class="circle circle-danger circle-lg text-left"></span>Ticket Resolved
+                                                </strong>
+                                                <p class="mb-sm">
+                                                    <small>This ticket has been resolved: @historyItem.User.FirstName @historyItem.User.LastName</small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <!-- START messages and activity-->
+                    <div class="panel panel-purple">
+                        <div class="panel-heading">
+                            <div class="pull-right label label-success">@ViewBag.NumberOfAttachments</div>
+                            <div class="panel-title">Attachments</div>
+                        </div>
+                        <!-- START list group-->
+                        <div data-height="223" data-scrollable="" class="list-group">
+                            @foreach (var attachment in Model.Ticket.TicketAttachments)
+                            {
+                        <!-- START list group item-->
+                                <div class="list-group-item">
+                                    <div class="media-box">
+                                        <div class="pull-left">
+                                            <span class="fa-stack">
+                                                @if (attachment.FileType == "upload")
+                                                {
+                                                    <em class="fa fa-circle fa-stack-2x text-purple"></em>
+                                                    <em class="fa fa-cloud-upload fa-stack-1x fa-inverse text-white"></em>
+                                                }
+                                                @if (attachment.FileType == "document")
+                                                {
+                                                    <em class="fa fa-circle fa-stack-2x text-info"></em>
+                                                    <em class="fa fa-file-text-o fa-stack-1x fa-inverse text-white"></em>
+                                                }
+                                            </span>
+                                        </div>
+                                        <div class="media-box-body clearfix">
+                                            <small class="text-muted pull-right ml">@attachment.TimeSincePosted</small>
+                                            <div class="btn-group btn-group-comments">
+                                                @if (User.IsInRole("Administrator") || User.IsInRole("Project Manager") || (attachment.UserId == User.Identity.GetUserId()))
+                                                {
+                                                    <button class="delete-attachment btn btn-xs btn-labeled btn-danger" onclick="location.href='@Url.Action(" Delete", "TicketAttachments" , new { id=attachment.Id })';">
+                                                        <span class="btn-label">
+                                                            <i class="fa fa-trash"></i>
+                                                            
+                                                        </span>
+                                                        
+                                                    </button>
+                                                }
+                                                
+                                            </div>
+                                            <div class="media-box-heading">
+                                                <a href="#" class="text-purple m0">@attachment.Description</a>
+                                            </div>
+                                            <p class="m0">
+                                                <small>
+                                                    <a href="@attachment.FilePath" target="_blank">@attachment.FileUrl</a>
+                                                </small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <!-- END list group item-->
+                            <!-- END list group item-->
+                        </div>
+                        <!-- END list group-->
+                        <!-- START panel footer-->
+                        @if (Model.Ticket.TicketStatus.Name != "Resolved")
+                        {
+                            using (Html.BeginForm("Create", "TicketAttachments", new { ticketId = Model.Ticket.Id }, FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="panel-footer clearfix">
+                                    <div id="headingOne" role="tab" class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed text-center">
+                                                Add an Attachment
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" role="tabpanel" aria-labelledby="headingOne" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <input type="file" name="file" accept=".txt, .doc, .pdf, .jpeg, .bmp, .gif, .jpg, .zip, .rar, .png" data-classbutton="btn btn-default" data-classinput="form-control inline" class="form-control filestyle">
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <br />
+                                            <div class="form-group">
+                                                <textarea type="text" name="Description" id="Description" placeholder="Add a description" class="form-control" rows="5" required></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-default btn-sm">
+                                                    Attach File
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        }
+                        <!-- END panel-footer-->
+                    </div>
+                    <!-- END messages and activity-->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-purple">
+                        <div class="panel-heading">
+                            <div class="pull-right label label-success">@ViewBag.NumberOfComments</div>
+                            <div class="panel-title">Comments</div>
+                        </div>
+                        <!-- START list group-->
+                        <div data-height="213" data-scrollable="" class="list-group">
+                            <!-- START list group item-->
+                            @foreach (var comment in Model.Ticket.TicketComments)
+            {
+                                <div class="list-group-item">
+                                    <div class="media-box">
+                                        <div class="pull-left">
+                                            <img src="~/app/img/user/default-user.png" alt="Image" class="media-box-object img-circle thumb32">
+                                        </div>
+                                        <div class="media-box-body clearfix">
+                                            <small class="pull-right">@comment.TimeSincePosted</small>
+                                            @if (User.IsInRole("Administrator") || User.IsInRole("Project Manager") || (comment.UserId == User.Identity.GetUserId()))
+                                            {
+                                                <div class="btn-group btn-group-comments">
+                                                    <button class="delete-comment btn btn-xs btn-labeled btn-warning" onclick="location.href='@Url.Action("Edit", "TicketComments", new { id = comment.Id })';">
+                                                        <span class="btn-label">
+                                                            <i class="fa fa-edit"></i>
+                                                        </span>
+                                                        Edit
+                                                    </button>
+                                                    <button class="delete-comment btn btn-xs btn-labeled btn-danger" onclick="location.href='@Url.Action("Delete", "TicketComments", new { id = comment.Id })';">
+                                                        <span class="btn-label">
+                                                            <i class="fa fa-trash"></i>
+                                                        </span>
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            }
+                                            <strong class="media-box-heading text-primary">
+                                                @* This is really bad practice, incorperate this role:comment information into the view model *@
+                                                @{ UserRolesManager URManager = new UserRolesManager();
+                                                    if (URManager.UserIsInRole(comment.UserId, "Administrator"))
+                                                    {
+                                                        <span class="circle circle-success circle-lg text-left">
+                                                        </span>@comment.User.FirstName<span> </span>@comment.User.LastName
+                                                    }
+                                                    else if (URManager.UserIsInRole(comment.UserId, "Project Manager"))
+                                                    {
+                                                        <span class="circle circle-info circle-lg text-left">
+                                                        </span>@comment.User.FirstName<span> </span>@comment.User.LastName
+
+                                                    }
+                                                    else if (URManager.UserIsInRole(comment.UserId, "Developer"))
+                                                    {
+                                                        <span class="circle circle-warning circle-lg text-left">
+                                                        </span>@comment.User.FirstName<span> </span>@comment.User.LastName
+                                                    }
+                                                    else if (URManager.UserIsInRole(comment.UserId, "Submitter"))
+                                                    {
+                                                        <span class="circle circle-danger circle-lg text-left">
+                                                        </span>@comment.User.FirstName<span> </span>@comment.User.LastName
+                                                    }
+                                                }
+                                            </strong>
+                                            <p class="mb-sm">
+                                                <small>@comment.Comment</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*</a>*@
+                                                    }
+                            <!-- END list group item-->
+                        </div>
+                        <!-- END list group-->
+                        <!-- START panel footer-->
+                        @if (Model.Ticket.TicketStatus.Name != "Resolved")
+                        {
+                            using (Html.BeginForm("Create", "TicketComments", new { ticketId = Model.Ticket.Id }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="panel-footer clearfix">
+                                    <div class="input-group">
+                                        <input type="text" name="Comment" placeholder="Add a new comment" class="form-control input-sm" required>
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-default btn-sm">
+                                                Add Comment
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <!-- END panel-footer-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <!-- FILESTYLE-->
+<script src="~/vendor/bootstrap-filestyle/src/bootstrap-filestyle.js"></script>
+}
